@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+  # MYSQL
+  mysql:
+    image: mysql:5
+    environment:
+      - MYSQL_DATABASE=FrutosDelPaine
+      - MYSQL_ROOT_USER=root
+      - MYSQL_ROOT_PASSWORD=toor
+      - MYSQL_PORT=3306
+    ports:
+      - 3306:3306
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+      # for production ->
+      #- mysql-data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - MYSQL_ROOT_PASSWORD=toor
+      - PMA_HOST=mysql
+    ports:
+      - 8080:80
