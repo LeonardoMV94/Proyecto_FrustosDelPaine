@@ -14,6 +14,20 @@ export async function getAllClientes() {
 
 }
 
+export async function getOneClienteById(id: number){
+    try {
+        const cliente = await db.clientes.findFirst({
+            where: {
+                id: id
+            }
+        })
+        return cliente
+    } catch (error) {
+        console.log("error al obtener clientes ", error)
+        return {}
+    }
+}
+
 export async function createCliente(cliente: ClienteCreate) {
     try {
        return await db.clientes.create({
@@ -55,6 +69,7 @@ export async function deleteCliente(id: number){
             select: {
                 id: true,
                 rut: true
+
             }
         })
         return result
