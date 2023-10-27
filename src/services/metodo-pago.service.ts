@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client'
 import {db} from '../utils/db.config'
-import { MetodoPago, MetodoPagoCreate } from '../models/metodo-pago.model'
+import { MetodoPagoCreate , MetodoPagoUpdate} from '../models/metodo-pago.model'
 
 export async function getAllMetodoPago(){
 try {
@@ -27,10 +27,10 @@ export async function getOneMetodoPagoById(id:number){
     }
 }
 
-export async function createMetodoPago(metodo_Pago :MetodoPago) {
+export async function createMetodoPago(metodo_pago :MetodoPagoCreate) {
     try {
          return await db.metodo_Pago.create({
-            data:metodo_Pago
+           data: metodo_pago
          })
     } catch (error) {
         console.log("createMetodoPAgo Error", error)
@@ -40,7 +40,7 @@ export async function createMetodoPago(metodo_Pago :MetodoPago) {
 }
 
 
-export async function updateMetodoPago(id:number,metodo_Pago:MetodoPago) {
+export async function updateMetodoPago(id:number,metodo_Pago:MetodoPagoUpdate) {
     try {
         const result = await db.metodo_Pago.update({
             data:metodo_Pago,

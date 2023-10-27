@@ -4,7 +4,7 @@ const prisma = new PrismaClient()
 
 export  type Colaborador = Prisma.ColaboradoresGetPayload<{}>
 
-export type ColaboradorCrate = Omit<Colaborador,'id'>
+export type ColaboradorCrate = Colaborador
 
 export type ColaboradorUpdate = Partial<ColaboradorCrate>
  

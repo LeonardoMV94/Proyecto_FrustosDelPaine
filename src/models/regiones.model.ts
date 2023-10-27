@@ -4,6 +4,6 @@ const prisma = new PrismaClient()
 
 export type Region = Prisma.RegionesGetPayload<{}>
 
-export type RegionCreate = Omit<Region,'id'>
+export type RegionCreate = Region
 
 export type RegionUpdate = Partial <RegionCreate>

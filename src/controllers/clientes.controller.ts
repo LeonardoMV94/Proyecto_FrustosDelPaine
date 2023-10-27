@@ -3,6 +3,7 @@ import type { Request, Response } from "express"
 import * as ClientesServices from "../services/clientes.service"
 import { Prisma } from "@prisma/client"
 import { ClienteUpdate } from "../models/clientes.model"
+
 const router = express.Router()
 
 
@@ -40,14 +41,14 @@ router.post("/", async (request: Request, response: Response) => {
     try {
         const clienteBody = request.body
         const result = await ClientesServices.createCliente(clienteBody)
-        return response.status(201).json(result);
+        return response.status(201).json(result)
     } catch (error: any) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
             return response.status(500).json({
                 mensaje: "No se pudo crear el cliente",
                 code: error.code,
                 meta: error.meta,
-                error: error.message,
+                error: error.message
 
             })
         }

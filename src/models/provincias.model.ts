@@ -4,7 +4,7 @@ const prisma = new PrismaClient()
 
 export type Provincia = Prisma.ProvinciasGetPayload<{}>
 
-export type ProvinciaCreate = Omit<Provincia, 'id'>
+export type ProvinciaCreate = Provincia
 
 export type ProvinciaUpdate =Partial<ProvinciaCreate>
 

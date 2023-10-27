@@ -4,4 +4,6 @@ const prisma = new PrismaClient()
 
 export type MetodoPago = Prisma.Metodo_PagoGetPayload<{}>
 
-export type MetodoPagoCreate = Omit<Prisma.Metodo_PagoUncheckedCreateInput, 'id'>
+export type MetodoPagoCreate = MetodoPago
+
+export type MetodoPagoUpdate = Partial <MetodoPagoCreate>

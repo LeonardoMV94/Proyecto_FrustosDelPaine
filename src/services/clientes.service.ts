@@ -47,7 +47,9 @@ export async function updateCliente(id: number, cliente: ClienteUpdate){
             select: {
                 id: true,
                 nombre: true,
-                apellido: true
+                apellido: true,
+                correo:true,
+                celular:true
             },
             where: {
                 id: id
