@@ -64,7 +64,7 @@ export async function updateCliente(id: number, cliente: ClienteUpdate){
 
 export async function deleteCliente(id: number){
     try {
-        const result = await db.clientes.delete({
+        const result: ClienteDeleteResponse = await db.clientes.delete({
             where: {
                 id: id
             },

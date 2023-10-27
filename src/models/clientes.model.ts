@@ -7,3 +7,5 @@ export type Cliente = Prisma.ClientesGetPayload<{}>
 export type ClienteCreate = Omit<Cliente, 'id'>
 
 export type ClienteUpdate = Partial<ClienteCreate>
+
+export type ClienteDeleteResponse = Pick<Cliente, 'id' | 'rut'>
