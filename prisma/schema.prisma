@@ -20,7 +20,7 @@ model Clientes {
   apellido                String                    @db.VarChar(45)
   correo                  String                   @unique @db.VarChar(45)
   celular                 String                   @unique @db.VarChar(45)
-  direccion_id            Int
+  direccion_id            Int?
   Direcciones_de_Clientes Direcciones_de_Clientes[]
   Venta                   Venta[]
 }
@@ -50,11 +50,11 @@ model Compras {
 }
 
 model Comunas {
-  id            Int           @id @default(autoincrement())
+  id_comuna     Int           @id @default(autoincrement())
   comuna        String        @db.VarChar(45)
-  Provincias_id Int
+  provincia_id  Int
   Direcciones   Direcciones[]
-  Provincias    Provincias    @relation(fields: [Provincias_id], references: [id])
+  Provincias    Provincias    @relation(fields: [provincia_id], references: [id_provincia])
 }
 
 model Detalle_Compras {
@@ -90,9 +90,9 @@ model Detalle_pago_en_Venta {
 model Detalle_venta {
   Producto_id       Int
   Venta_id          Int
-  cantidad          Int?
-  precio_neto       Float?
-  precio_total_neto Int?
+  cantidad          Int
+  precio_neto       Int
+  precio_total_neto Int
   Venta             Venta     @relation(fields: [Venta_id], references: [id])
   Productos         Productos @relation(fields: [Producto_id], references: [id])
 
@@ -105,7 +105,7 @@ model Direcciones {
   numero_calle                 Int
   numero_departamento          Int?
   Comunas_id                   Int
-  Comunas                      Comunas                        @relation(fields: [Comunas_id], references: [id])
+  Comunas                      Comunas                        @relation(fields: [Comunas_id], references: [id_comuna])
   Direcciones_de_Clientes      Direcciones_de_Clientes[]
   Direcciones_de_Colaboradores Direcciones_de_Colaboradores[]
   Proveedores                  Proveedores[]
@@ -143,10 +143,10 @@ model Metodo_Pago {
 
 model Productos {
   id              Int               @id @default(autoincrement())
-  descripcion     String?           @db.VarChar(45)
-  peso_gramos     Int?
-  precio_neto     Int?
-  stock           Int?
+  descripcion     String           @db.VarChar(45)
+  peso_gramos     Int
+  precio_neto     Int
+  stock           Int
   cod_barras      String?           @db.VarChar(255)
   Categorias_id   Int
   Detalle_Compras Detalle_Compras[]
@@ -156,29 +156,29 @@ model Productos {
 
 model Proveedores {
   id             Int         @id
-  rut            Int?
-  giro           Int?
-  nombre         String?     @db.VarChar(45)
-  telefono       Int?
-  correo         String?     @db.VarChar(45)
-  pagina_web     String?     @db.VarChar(45)
+  rut            Int
+  giro           Int
+  nombre         String     @db.VarChar(45)
+  telefono       String     
+  correo         String     @db.VarChar(45) @unique
+  pagina_web     String     @db.VarChar(45)
   Direcciones_id Int
   Compras        Compras[]
   Direcciones    Direcciones @relation(fields: [Direcciones_id], references: [id])
 }
 
 model Provincias {
-  id          Int       @id
-  provincia   String   @db.VarChar(45)
-  Regiones_id Int
-  Comunas     Comunas[]
-  Regiones    Regiones  @relation(fields: [Regiones_id], references: [id])
+  id_provincia  Int       @id 
+  nombre        String    @db.VarChar(64)
+  region_id     Int
+  Comunas       Comunas[]
+  Regiones      Regiones  @relation(fields: [region_id], references: [id_region])
 }
 
 model Regiones {
-  id         Int          @id
-  region     String      @db.VarChar(45)
-  numeracion String      @db.VarChar(5)
+  id_region  Int         @id
+  nombre     String      @db.VarChar(64)
+  ordinal    String      @db.VarChar(4)
   Provincias Provincias[]
 }
 
@@ -204,7 +204,7 @@ model Venta {
   id                    Int                     @id @default(autoincrement())
   neto                  Int
   iva                   Int
-  total                 Int?
+  total                 Int
   Usuarios_id           Int
   Clientes_id           Int
   fecha                 DateTime                @db.DateTime(3)

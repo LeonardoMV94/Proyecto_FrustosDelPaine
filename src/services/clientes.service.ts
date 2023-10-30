@@ -4,7 +4,19 @@ import { db } from '../utils/db.config'
 
 export async function getAllClientes() {
     try {
-        const clientes = await db.clientes.findMany()
+        const clientes = await db.clientes.findMany({
+            include: {
+                Direcciones_de_Clientes: {
+                    include: {
+                        Direcciones: {
+                            include: {
+                                Comunas: true
+                            }
+                        }
+                    }
+                }
+            }
+        })
         return clientes
     } catch (error) {
         console.log("error al obtener clientes ", error)
