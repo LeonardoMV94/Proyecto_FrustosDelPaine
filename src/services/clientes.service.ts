@@ -1,5 +1,4 @@
-import { Prisma } from '@prisma/client'
-import { ClienteCreate, ClienteUpdate } from '../models/clientes.model'
+import { ClienteCreate, ClienteDeleteResponse, ClienteUpdate } from '../models/clientes.model'
 import { db } from '../utils/db.config'
 
 

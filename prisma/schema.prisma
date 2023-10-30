@@ -8,8 +8,8 @@ datasource db {
 }
 
 model Categorias {
-  id        Int       @id @default(autoincrement())
-  categoria String?   @db.VarChar(45)
+  id        Int         @id @default(autoincrement())
+  categoria String      @db.VarChar(45)
   Productos Productos[]
 }
 
@@ -18,31 +18,31 @@ model Clientes {
   rut                     String?                   @db.VarChar(45)
   nombre                  String                    @db.VarChar(45)
   apellido                String                    @db.VarChar(45)
-  correo                  String?                   @db.VarChar(45)
-  celular                 String?                   @db.VarChar(45)
-  direccion_id            Int?
+  correo                  String                   @unique @db.VarChar(45)
+  celular                 String                   @unique @db.VarChar(45)
+  direccion_id            Int
   Direcciones_de_Clientes Direcciones_de_Clientes[]
   Venta                   Venta[]
 }
 
 model Colaboradores {
-  id                           Int                            @id
-  nombres                      String?                        @db.VarChar(45)
-  apellidos                    String?                        @db.VarChar(45)
-  direccion_id                 Int?
-  correo                       String?                        @db.VarChar(45)
-  celular                      String?                        @db.VarChar(45)
+  id                           Int                            @id @default(autoincrement())
+  nombres                      String                         @db.VarChar(45)
+  apellidos                    String                         @db.VarChar(45)
+  direccion_id                 Int
+  correo                       String                         @unique @db.VarChar(45)
+  celular                      String                        @unique @db.VarChar(45)
   Direcciones_de_Colaboradores Direcciones_de_Colaboradores[]
   Usuarios                     Usuarios[]
 }
 
 model Compras {
-  id              Int               @id
-  fecha           String?           @db.VarChar(45)
+  id              Int               @id @default(autoincrement())
+  fecha           DateTime          @db.DateTime(3)
   Proveedores_id  Int
-  total_neto      String?           @db.VarChar(45)
-  iva             String?           @db.VarChar(45)
-  total           String?           @db.VarChar(45)
+  total_neto      Int
+  iva             Int
+  total           Int
   Usuarios_id     Int
   Proveedores     Proveedores       @relation(fields: [Proveedores_id], references: [id])
   Usuarios        Usuarios          @relation(fields: [Usuarios_id], references: [id])
@@ -50,19 +50,19 @@ model Compras {
 }
 
 model Comunas {
-  id            Int           @default(autoincrement()) @id
-  comuna        String?       @db.VarChar(45)
+  id            Int           @id @default(autoincrement())
+  comuna        String        @db.VarChar(45)
   Provincias_id Int
-  Provincias    Provincias    @relation(fields: [Provincias_id], references: [id])
   Direcciones   Direcciones[]
+  Provincias    Provincias    @relation(fields: [Provincias_id], references: [id])
 }
 
 model Detalle_Compras {
   Compras_id   Int
   Productos_id Int
-  cantidad     Int?
-  valor_neto   Float?
-  total_neto   Float?
+  cantidad     Int
+  valor_neto   Float
+  total_neto   Float
   Compras      Compras   @relation(fields: [Compras_id], references: [id])
   Productos    Productos @relation(fields: [Productos_id], references: [id])
 
@@ -70,7 +70,7 @@ model Detalle_Compras {
 }
 
 model Detalle_pago {
-  id                    Int                     @default(autoincrement()) @id
+  id                    Int                     @id @default(autoincrement())
   monto_pagado          Int?
   Metodo_Pago_id        Int
   fecha                 DateTime?               @db.DateTime(0)
@@ -100,7 +100,7 @@ model Detalle_venta {
 }
 
 model Direcciones {
-  id                           Int                            @default(autoincrement()) @id
+  id                           Int                            @id @default(autoincrement())
   calle                        String                         @db.VarChar(45)
   numero_calle                 Int
   numero_departamento          Int?
@@ -130,15 +130,15 @@ model Direcciones_de_Colaboradores {
 }
 
 model Estado_Pago {
-  id     Int     @default(autoincrement()) @id
-  estado String? @db.VarChar(45)
+  id     Int     @id @default(autoincrement())
+  estado String  @db.VarChar(45)
   Venta  Venta[]
 }
 
 model Metodo_Pago {
   id           Int            @id
   metodo       String?        @db.VarChar(45)
-  Detalle_pago Detalle_pago[] 
+  Detalle_pago Detalle_pago[]
 }
 
 model Productos {
@@ -169,7 +169,7 @@ model Proveedores {
 
 model Provincias {
   id          Int       @id
-  provincia   String?   @db.VarChar(45)
+  provincia   String   @db.VarChar(45)
   Regiones_id Int
   Comunas     Comunas[]
   Regiones    Regiones  @relation(fields: [Regiones_id], references: [id])
@@ -177,37 +177,37 @@ model Provincias {
 
 model Regiones {
   id         Int          @id
-  region     String?      @db.VarChar(45)
-  numeracion String?      @db.VarChar(5)
+  region     String      @db.VarChar(45)
+  numeracion String      @db.VarChar(5)
   Provincias Provincias[]
 }
 
 model Tipos_Usuarios {
   id           Int        @id @default(autoincrement())
-  tipo_usuario String?    @db.VarChar(45)
+  tipo_usuario String     @db.VarChar(45)
   Usuarios     Usuarios[]
 }
 
 model Usuarios {
-  id                Int            @default(autoincrement()) @id
+  id                Int            @id @default(autoincrement())
   pass_encrypt      String?        @db.VarChar(45)
   Tipos_Usuarios_id Int
   Colaboradores_id  Int
   ultimo_login      String?        @db.VarChar(45)
   Compras           Compras[]
+  Venta             Venta[]
   Colaboradores     Colaboradores  @relation(fields: [Colaboradores_id], references: [id])
   Tipos_Usuarios    Tipos_Usuarios @relation(fields: [Tipos_Usuarios_id], references: [id])
-  Venta             Venta[]
 }
 
 model Venta {
   id                    Int                     @id @default(autoincrement())
-  neto                  Float?                  @db.Float
-  iva                   Float?                  @db.Float
+  neto                  Int
+  iva                   Int
   total                 Int?
   Usuarios_id           Int
   Clientes_id           Int
-  fecha                 DateTime?               @db.DateTime(0)
+  fecha                 DateTime                @db.DateTime(3)
   Estado_Pago_id        Int
   Detalle_pago_en_Venta Detalle_pago_en_Venta[]
   Detalle_venta         Detalle_venta[]
