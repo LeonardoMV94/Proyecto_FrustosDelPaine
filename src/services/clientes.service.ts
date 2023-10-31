@@ -17,6 +17,7 @@ export async function getAllClientes() {
                 }
             }
         })
+        
         return clientes
     } catch (error) {
         console.log("error al obtener clientes ", error)

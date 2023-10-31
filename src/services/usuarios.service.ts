@@ -1,10 +1,16 @@
 import { Prisma } from "@prisma/client"
 import {db} from '../utils/db.config'
 import { Usuario, UsuarioCreate, UsuarioUpdate } from "../models/ususarios.model"
+import { Colaborador } from '../models/colaboradores.model';
 
 export async function getAllUsuarios() {
     try {
-        const usuarios = await db.usuarios.findMany()
+        const usuarios = await db.usuarios.findMany({
+            include: {
+                Tipos_Usuarios: true,
+                Colaboradores: true
+            }
+        })
         return usuarios
     } catch (error) {
         console.log("Error al obtener Los Usuarios")
@@ -14,9 +20,12 @@ export async function getAllUsuarios() {
 
 export async function getOneUsuarioById(id:number) {
     try {
-        const usuario = await db.metodo_Pago.findFirst({
+        const usuario = await db.usuarios.findFirst({
             where: {
                 id:id
+            },
+            include: {
+                Colaboradores: true
             }
         })
         return usuario
@@ -30,7 +39,10 @@ export async function getOneUsuarioById(id:number) {
 export async function createUsuario(usuario :Usuario) {
     try {
         return await db.usuarios.create({
-            data: usuario
+            data: usuario,
+            select: {
+                id: true,                
+            }
         })
     } catch (error) {
         console.log("createUsuario error: ",error)

@@ -1,6 +1,7 @@
 import express from "express"
 import type { Application, Request, Response } from "express"
 import ClientesController from './clientes.controller'
+import VentasController from './ventas.controller'
 
 export default function routes(app: Application) {
     const router = express.Router()
@@ -15,5 +16,6 @@ export default function routes(app: Application) {
     })
 
     router.use("/clientes", ClientesController)
+    router.use("/ventas", VentasController)
 }
 

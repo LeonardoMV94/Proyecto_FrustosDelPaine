@@ -1,80 +1,86 @@
 import { Prisma } from "@prisma/client";
 import { db } from "../utils/db.config";
-import { VentaCreate,VentaUpdate } from "../models/ventas.model";
+import { VentaCreate, VentaUpdate } from "../models/ventas.model";
 
 export async function getAllVentas() {
     try {
-        const ventas = await db.venta.findMany()
+        const ventas = await db.venta.findMany({
+            include: {
+                Usuarios: true,
+                Estado_Pago: true,
+                Clientes: true
+            }
+        })
         return ventas
     } catch (error) {
-        console.log("Erorr al obtener ventas",error)
-        return{}
+        console.log("Erorr al obtener ventas", error)
+        return [] 
     }
-    
+
 }
 
-export async function getOneVentaById(id:number) {
+export async function getOneVentaById(id: number) {
     try {
         const result = await db.venta.findFirst({
-            where:{
-                id:id
+            where: {
+                id: id
             }
         })
         return result
     } catch (error) {
-        console.log("Errro al obtener una venta ",error)
-        return{}
+        console.log("Errro al obtener una venta ", error)
+        return {}
     }
-    
+
 }
 
-export async function createVenta( venta:VentaCreate) {
+export async function createVenta(venta: VentaCreate) {
     try {
         return await db.venta.create({
-            data:venta
+            data: venta
         })
     } catch (error) {
-        console.log("Error de Prisma Create ",error)
-        return{}
+        console.log("Error de Prisma Create ", error)
+        return {}
     }
 }
 
-export async function updateVenta(id:number , venta:VentaUpdate) {
+export async function updateVenta(id: number, venta: VentaUpdate) {
     try {
         const result = await db.venta.update({
-            data:venta,
-            select:{
-                id:true,
-                neto:true,
-                iva:true,
-                total:true,
-                fecha:true
+            data: venta,
+            select: {
+                id: true,
+                neto: true,
+                iva: true,
+                total: true,
+                fecha: true
             },
-            where:{
-                id:id
+            where: {
+                id: id
             }
         })
         return result
     } catch (error) {
-        console.log("Error de prisma update ",error)
-        return{}
+        console.log("Error de prisma update ", error)
+        return {}
     }
-    
+
 }
 
-export async function deleteVenta(id:number) {
+export async function deleteVenta(id: number) {
     try {
         const result = await db.venta.delete({
-            where:{
-                id:id
+            where: {
+                id: id
             },
-            select:{
-                id:true
+            select: {
+                id: true
             }
         })
     } catch (error) {
         console.log("Error al delete Prisma ", error)
         return {}
     }
-    
+
 }

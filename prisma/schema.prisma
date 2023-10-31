@@ -193,7 +193,7 @@ model Usuarios {
   pass_encrypt      String?        @db.VarChar(45)
   Tipos_Usuarios_id Int
   Colaboradores_id  Int
-  ultimo_login      String?        @db.VarChar(45)
+  ultimo_login      DateTime?      @db.DateTime(3)
   Compras           Compras[]
   Venta             Venta[]
   Colaboradores     Colaboradores  @relation(fields: [Colaboradores_id], references: [id])
