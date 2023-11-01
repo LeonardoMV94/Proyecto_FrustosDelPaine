@@ -4,7 +4,11 @@ import { ProveedorCreate,ProveedorUpdate } from "../models/proveedores.model";
 
 export async function getAllProveedores() {
     try {
-        const proveedor = await db.proveedores.findMany()
+        const proveedor = await db.proveedores.findMany({
+            include:{
+                Direcciones:true
+            }
+        })
         return proveedor
     } catch (error) {
         console.log("Error al obtener proveedores ",error)

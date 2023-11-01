@@ -4,7 +4,12 @@ import { CompraCreate,CompraUpate } from "../models/compras.model";
 
 export async function getAllCompras() {
     try {
-        const compra = await db.compras.findMany()
+        const compra = await db.compras.findMany({
+            include:{
+                Proveedores:true,
+                Usuarios:true
+            }
+        })
         return compra
     } catch (error) {
         console.log("Error al obtener compras")

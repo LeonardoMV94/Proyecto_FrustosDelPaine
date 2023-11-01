@@ -4,7 +4,19 @@ import { DireccionCreate, DireccionUpdate } from "../models/direcciones.model";
 
 export async function getAllDirecciones() {
     try {
-        const direcciones = await db.direcciones.findMany()
+        const direcciones = await db.direcciones.findMany({
+            include:{
+                Comunas:{
+                    include:{
+                        Provincias:{
+                            include:{
+                                Regiones:true
+                            }
+                        }
+                    }
+                }
+            }
+        })
         return direcciones
     } catch (error) {
         console.log("Error al Obtener Direcciones ",error)

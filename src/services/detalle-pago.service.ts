@@ -4,7 +4,11 @@ import { DetallePagoCreate,DetallePagoUpdate } from "../models/detalle-pago.mode
 
 export async function getAllDetallePago() {
     try {
-        const detallePAgo =await db.detalle_pago.findMany()
+        const detallePAgo =await db.detalle_pago.findMany({
+            include:{
+                Metodo_Pago:true
+            }
+        })
         return detallePAgo
     } catch (error) {
         console.log("Error al obtener los detalles pago ",error)

@@ -4,7 +4,12 @@ import { DetalleCompraCreate,DetalleCompraUpdate } from "../models/detalle-compr
 
 export async function getAllDetalleVenta() {
     try {
-        const detalleVenta = await db.detalle_venta.findMany()
+        const detalleVenta = await db.detalle_venta.findMany({
+            include:{
+                Productos:true,
+                Venta:true
+            }
+        })
         return detalleVenta
     } catch (error) {
         console.log("Error en obtener los detalles venta ",error)

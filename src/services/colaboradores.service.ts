@@ -4,7 +4,20 @@ import { ColaboradorCrate,ColaboradorUpdate } from "../models/colaboradores.mode
 
 export async function getAllColabradores() {
     try {
-        const colaborador =  await db.colaboradores.findMany()
+        const colaborador =  await db.colaboradores.findMany({
+            include:{
+                Direcciones_de_Colaboradores:{
+                    include:{
+                        Direcciones:{
+                            include:{
+                                Comunas:true
+                            }
+                        }
+                    }
+                }
+
+            }
+        })
         return colaborador
     } catch (error) {
         console.log("Error de obtener colaboradores ", error)

@@ -7,8 +7,16 @@ export async function getAllVentas() {
         const ventas = await db.venta.findMany({
             include: {
                 Usuarios: true,
-                Estado_Pago: true,
-                Clientes: true
+                Clientes: true,
+                Detalle_pago_en_Venta:{
+                    include:{
+                        Detalle_pago:{
+                            include:{
+                                Metodo_Pago:true
+                            }
+                        }
+                    }
+                }
             }
         })
         return ventas
@@ -28,7 +36,7 @@ export async function getOneVentaById(id: number) {
         })
         return result
     } catch (error) {
-        console.log("Errro al obtener una venta ", error)
+        console.log("Error al obtener una venta ", error)
         return {}
     }
 
