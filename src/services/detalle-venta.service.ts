@@ -1,6 +1,6 @@
-import { Prisma } from "@prisma/client";
+import { Detalle_venta, Prisma } from "@prisma/client";
 import { db } from "../utils/db.config";
-import { DetalleCompraCreate,DetalleCompraUpdate } from "../models/detalle-compra.model";
+import { DetalleVentaCreate,DetalleVentaUpdate } from "../models/detalle-venta.model";
 
 export async function getAllDetalleVenta() {
     try {
@@ -22,10 +22,10 @@ export async function getOneDetalleVentaById(id:number) {
     try {
         const detalleVenta = await db.detalle_venta.findFirst({
             where:{
-                
-
-
-            }
+                Venta_id:id,
+                Producto_id:id
+            },
+            
         })
         return detalleVenta
     } catch (error) {
@@ -34,9 +34,11 @@ export async function getOneDetalleVentaById(id:number) {
     }
 }
 
-export async function createDetalleVenta(detalleVenta:DetalleCompraCreate) {
+export async function createDetalleVenta(detalleVenta:DetalleVentaCreate) {
     try {
-        
+        return await db.detalle_venta.create({
+         data:detalleVenta
+        });
 
     } catch (error) {
         console.log("Error al crear detalle venta")
@@ -45,3 +47,37 @@ export async function createDetalleVenta(detalleVenta:DetalleCompraCreate) {
     
 }
 
+export async function updateDetallateVenta(idVenta:number,idProducto:number,detalleVenta:DetalleVentaUpdate) {
+    try {
+        const upateDetalleVenta= await db.detalle_venta.updateMany({
+            where: {
+                Venta_id: idVenta,
+                Producto_id: idProducto,
+            },
+            data:detalleVenta,
+        });
+
+        return upateDetalleVenta;
+
+    } catch (error) {
+        console.log("Error en Prisma Update",error)
+        return {}
+    }
+    
+}
+
+export async function deteleDetalleVenta(idVenta:number,idProducto:number) {
+    try {
+        const deteleDetalleVenta = await db.detalle_venta.delete({
+            where:{
+                Producto_id_Venta_id:{
+                    Venta_id:idVenta,
+                    Producto_id:idProducto
+                }
+            }
+        })
+    } catch (error) {
+        
+    }
+    
+}
