@@ -47,11 +47,21 @@ export async function Create(detalleCompra:DetalleCompraCreate) {
     
 }
 
-export async function updateDetalleCompra(id:number,detalleCompra:DetalleCompraUpdate) {
+export async function updateDetalleCompra(idCompra:number, idProducto: number,detalleCompra:DetalleCompraUpdate) {
     try {
+        const updatedDetalleCompra = await db.detalle_Compras.updateMany({
+            where: {
+                Compras_id: idCompra,
+                Productos_id: idProducto,
+            },
+            data: detalleCompra,
+        });
+
+        return updatedDetalleCompra;
        
     } catch (error) {
-        
+        console.log("Error en Prisma Create",error)
+        return {}
     }
     
 }
