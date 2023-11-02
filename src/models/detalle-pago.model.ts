@@ -6,4 +6,4 @@ export type DetallePago = Prisma.Detalle_pagoGetPayload<{}>
 
 export type DetallePagoCreate = DetallePago
 
-export type DetallePagoUpdate = Partial<DetallePago>
+export type DetallePagoUpdate = Partial<DetallePagoCreate>

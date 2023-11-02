@@ -35,7 +35,7 @@ export async function getOneDetalleCompraById(id:number) {
     
 }
 
-export async function Create(detalleCompra:DetalleCompraCreate) {
+export async function CreateDetalleCompra(detalleCompra:DetalleCompraCreate) {
     try {
         return await db.detalle_Compras.create({
             data:detalleCompra
