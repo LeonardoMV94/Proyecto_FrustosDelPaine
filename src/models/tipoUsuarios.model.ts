@@ -1,10 +1,7 @@
 import { PrismaClient, Prisma } from "@prisma/client";
-import { type } from "os";
 
-const prisma = new PrismaClient()
+export type TipoUsuario = Prisma.UsuariosGetPayload<{}>
 
-export type tipoUsuario = Prisma.UsuariosGetPayload<{}>
+export type TipoUsuarioCreate = Prisma.Tipos_UsuariosUncheckedCreateWithoutUsuariosInput
 
-export type tipoUsuarioCreate = tipoUsuario
-
-export type tipoUsuarioUpdate = Partial<tipoUsuarioCreate>
+export type TipoUsuarioUpdate = Partial<TipoUsuarioCreate>

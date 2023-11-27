@@ -2,7 +2,7 @@ import express from "express"
 import type { Request,Response } from "express"
 import * as TipoUsuarioServices from "../services/tipo-usuario.service"
 import { Prisma } from "@prisma/client"
-import { tipoUsuario, tipoUsuarioUpdate } from "../models/tipoUsuarios.model"
+import { TipoUsuario, TipoUsuarioUpdate } from "../models/tipoUsuarios.model"
 
 const router = express.Router()
 
@@ -28,7 +28,7 @@ router.get("/:id",async(request:Request,response:Response)=>{
 
 router.put("/:id",async(request:Request,response:Response)=>{
     const id:number = parseInt(request.params.id,0)
-    const tipoUsuarioBody :tipoUsuarioUpdate =request.body
+    const tipoUsuarioBody :TipoUsuarioUpdate =request.body
     try {
         const result = await TipoUsuarioServices.updateTipoUsuario(id,tipoUsuarioBody)
         response.status(200).json(result)
