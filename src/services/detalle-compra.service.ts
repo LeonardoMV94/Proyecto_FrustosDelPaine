@@ -35,7 +35,7 @@ export async function getOneDetalleCompraById(id:number) {
     
 }
 
-export async function Create(detalleCompra:DetalleCompraCreate) {
+export async function CreateDetalleCompra(detalleCompra:DetalleCompraCreate) {
     try {
         return await db.detalle_Compras.create({
             data:detalleCompra
@@ -60,7 +60,26 @@ export async function updateDetalleCompra(idCompra:number, idProducto: number,de
         return updatedDetalleCompra;
        
     } catch (error) {
-        console.log("Error en Prisma Create",error)
+        console.log("Error en Prisma Update",error)
+        return {}
+    }
+
+}
+
+export async function deleteDetalleCompra(idCompra:number,idProducto:number) {
+    try {
+        const deleteDetalleCompra = await db.detalle_Compras.delete({
+            where:{
+                Compras_id_Productos_id:{
+                    Compras_id:idCompra,
+                    Productos_id: idProducto
+                }
+            }
+        })
+        
+        return deleteDetalleCompra
+    } catch (error) {
+        console.log("Error al delete Prisma ",error)
         return {}
     }
     
