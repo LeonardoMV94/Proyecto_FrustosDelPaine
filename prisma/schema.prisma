@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -38,7 +38,7 @@ model Colaboradores {
 
 model Compras {
   id              Int               @id @default(autoincrement())
-  fecha           DateTime          @db.DateTime(3)
+  fecha           DateTime          @db.Date
   Proveedores_id  Int
   total_neto      Int
   iva             Int
@@ -73,7 +73,7 @@ model Detalle_pago {
   id                    Int                     @id @default(autoincrement())
   monto_pagado          Int?
   Metodo_Pago_id        Int
-  fecha                 DateTime?               @db.DateTime(0)
+  fecha                 DateTime?               @db.Date
   Metodo_Pago           Metodo_Pago             @relation(fields: [Metodo_Pago_id], references: [id])
   Detalle_pago_en_Venta Detalle_pago_en_Venta[]
 }
@@ -193,7 +193,7 @@ model Usuarios {
   pass_encrypt      String?        @db.VarChar(45)
   Tipos_Usuarios_id Int
   Colaboradores_id  Int
-  ultimo_login      DateTime?      @db.DateTime(3)
+  ultimo_login      DateTime?      @db.Date
   Compras           Compras[]
   Venta             Venta[]
   Colaboradores     Colaboradores  @relation(fields: [Colaboradores_id], references: [id])
@@ -207,7 +207,7 @@ model Venta {
   total                 Int
   Usuarios_id           Int
   Clientes_id           Int
-  fecha                 DateTime                @db.DateTime(3)
+  fecha                 DateTime                @db.Date
   Estado_Pago_id        Int
   Detalle_pago_en_Venta Detalle_pago_en_Venta[]
   Detalle_venta         Detalle_venta[]
