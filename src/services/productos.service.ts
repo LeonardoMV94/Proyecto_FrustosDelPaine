@@ -4,11 +4,7 @@ import { ProductoCreate,ProductoUpdate} from "../models/productos.model";
 
 export async function getAllProductos() {
     try {
-        const productos = await db.productos.findMany({
-            include:{
-                Categorias:true
-            }
-        })
+        const productos = await db.productos.findMany()
         return productos
     } catch (error) {
         console.log("Error al obtener productos ",error)

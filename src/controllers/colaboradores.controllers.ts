@@ -75,3 +75,5 @@ router.delete("/:id",async(request:Request,response:Response)=>{
         response.status(500).json({error,message: "error de servidor ",code :500})
     }
 })
+
+export default router

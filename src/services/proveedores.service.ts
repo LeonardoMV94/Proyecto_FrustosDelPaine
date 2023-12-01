@@ -5,9 +5,22 @@ import { ProveedorCreate,ProveedorUpdate } from "../models/proveedores.model";
 export async function getAllProveedores() {
     try {
         const proveedor = await db.proveedores.findMany({
-            include:{
-                Direcciones:true
+           include:{
+            Direcciones:{
+                include:{
+                    Comunas:{
+                        include:{
+                            Provincias:{
+                                include:{
+                                    Regiones:true
+                                }
+                            }
+                        }
+                    }
+                }
             }
+           }
+        
         })
         return proveedor
     } catch (error) {
@@ -22,7 +35,9 @@ export async function getOneProveedorById(id:number) {
         const proveedor = await db.proveedores.findFirst({
             where:{
                 id:id
+                
             }
+
         })
         return proveedor
     } catch (error) {
@@ -36,6 +51,7 @@ export async function createProveedor(proveedor:ProveedorCreate) {
     try {
         return await db.proveedores.create({
             data:proveedor
+        
         })
     } catch (error) {
         console.log("Error al crear el proveedor ",error)

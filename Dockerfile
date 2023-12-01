@@ -7,7 +7,7 @@ COPY ./prisma/schema.prisma ./prisma/schema.prisma
 RUN npm install && npm run build
 
 FROM node:18-alpine
-ENV DATABASE_URL=mysql://root:toor@localhost:3306/FrutosDelPaine \
+ENV DATABASE_URL=mysql://root:toor@localhost:3306/DATABASE_URLFrutosDelPaine \
     PORT=5000 \
     NODE_ENV=production
 
