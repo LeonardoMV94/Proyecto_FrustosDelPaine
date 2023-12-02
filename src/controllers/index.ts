@@ -7,8 +7,14 @@ import UsuariosController from './usuarios.controller'
 import ColaboradoresController from './colaboradores.controllers'
 import ProductosController from './productos.controller'
 import CategoriasController from './categoria.controller'
-
-
+import DireccionesController from './direcciones.controller'
+import ComprasController from './compras.controller'
+import DetalleComprasController from './detalle-compra.controller'
+import DetallePagoController from './detalle-pago.controller'
+import DetalleVentaController from './detalle-venta.controller'
+import EstadoPagoController from './estado-pago.controller'
+import MetodoPagoController from './metodo-pago.controller'
+import TipoUsuarioController from './tipo-usuarios.controller'
 
 
 export default function routes(app: Application) {
@@ -30,5 +36,13 @@ export default function routes(app: Application) {
     router.use("/colaboradores",ColaboradoresController)
     router.use("/productos",ProductosController)
     router.use("/categorias",CategoriasController)
+    router.use("/direcciones",DireccionesController)
+    router.use("/compras",ComprasController)
+    router.use("/detalle-compras",DetalleComprasController)
+    router.use("/detalle-pago",DetallePagoController)
+    router.use("/detalle-venta",DetalleVentaController)
+    router.use("/estado-pago",EstadoPagoController)
+    router.use("/metodo-pago",MetodoPagoController)
+    router.use("/tipo-usuario",TipoUsuarioController)
 }
 

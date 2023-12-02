@@ -42,9 +42,13 @@ export async function getOneDireccionById(id: number) {
 
 export async function createDireccion(direccion: DireccionCreate) {
     try {
-        return await db.direcciones.create({
-            data: direccion
+        const dato =  await db.direcciones.create({
+            data: direccion,
+            select: {
+                id: true
+            }
         })
+        return dato
     } catch (error) {
         console.log("Error al crera direccion ", error)
         return {}
