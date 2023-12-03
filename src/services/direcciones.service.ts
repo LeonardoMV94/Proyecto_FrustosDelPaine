@@ -25,6 +25,24 @@ export async function getAllDirecciones() {
 
 }
 
+export async function getComunasNested() {
+    try {
+        const comunas = await db.comunas.findMany({
+            include: {
+                Provincias: {
+                    include: {
+                        Regiones: true
+                    }
+                }
+            }
+        })
+        return comunas
+    } catch (error) {
+        console.log("Error al Obtener Direcciones ", error)
+        return {}
+    }
+}
+
 export async function getOneDireccionById(id: number) {
     try {
         const direcciones = await db.direcciones.findFirst({

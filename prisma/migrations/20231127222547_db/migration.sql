@@ -5,4 +5,4 @@
 
 */
 -- AlterTable
-ALTER TABLE `Usuarios` MODIFY `ultimo_login` DATETIME(3) NULL;
+ALTER TABLE `Usuarios` MODIFY `ultimo_login` TIMESTAMP(3) NULL;

@@ -27,6 +27,16 @@ router.get("/:id", async (request: Request, response: Response) => {
     }
 })
 
+router.get('/comunas', async (request: Request, response: Response) => {
+    try {
+        const comunas = await DireccionesServices.getComunasNested()
+        response.status(200).json(comunas)
+    } catch (error) {
+        response.status(500).json({ error, message: "error al obtener en el servidor ", code: 500 })
+
+    }
+})
+
 router.put("/:id", async (request: Request, response: Response) => {
     const id: number = parseInt(request.params.id, 0)
     const direccionBody: DireccionUpdate = request.body
