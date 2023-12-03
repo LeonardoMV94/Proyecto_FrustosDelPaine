@@ -15,6 +15,7 @@ import DetalleVentaController from './detalle-venta.controller'
 import EstadoPagoController from './estado-pago.controller'
 import MetodoPagoController from './metodo-pago.controller'
 import TipoUsuarioController from './tipo-usuarios.controller'
+import * as DireccionesService from '../services/direcciones.service'
 
 
 export default function routes(app: Application) {
@@ -44,5 +45,46 @@ export default function routes(app: Application) {
     router.use("/estado-pago",EstadoPagoController)
     router.use("/metodo-pago",MetodoPagoController)
     router.use("/tipo-usuario",TipoUsuarioController)
+
+    router.get('/comunas/', async (request: Request, response: Response) => {
+        try {
+            const comunas = await DireccionesService.getAllComunas()
+            response.status(200).json(comunas)
+        } catch (error) {
+            response.status(500).json({ error, message: "error al obtener en el servidor ", code: 500 })
+    
+        }
+    })
+
+    router.get('/comunas/:idProvincia', async (request: Request, response: Response) => {
+        try {
+            const id:number = parseInt(request.params.idProvincia,0)
+            const comunas = await DireccionesService.getComunasNested(id)
+            response.status(200).json(comunas)
+        } catch (error) {
+            response.status(500).json({ error, message: "error al obtener en el servidor ", code: 500 })
+    
+        }
+    })
+    router.get('/provincias/:idRegion', async (request: Request, response: Response) => {
+        try {
+            const id:number = parseInt(request.params.idRegion,0)
+            const comunas = await DireccionesService.getOneProvincia(id)
+                        response.status(200).json(comunas)
+        } catch (error) {
+            response.status(500).json({ error, message: "error al obtener en el servidor ", code: 500 })
+    
+        }
+    })
+
+    router.get('/regiones', async (request: Request, response: Response) => {
+        try {            
+            const comunas = await DireccionesService.getRegiones()
+            response.status(200).json(comunas)
+        } catch (error) {
+            response.status(500).json({ error, message: "error al obtener en el servidor ", code: 500 })
+    
+        }
+    })
 }
 

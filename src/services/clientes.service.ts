@@ -30,10 +30,10 @@ export async function getOneClienteById(id: number){
 
 export async function createCliente(cliente: ClienteCreate) {
     try {
-       return await db.clientes.create({
+        const result = await db.clientes.create({
             data: cliente
         })
-
+        return result
     } catch (error: any) {
         console.log("createCliente error: ", error)
         return {}

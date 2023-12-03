@@ -5,7 +5,8 @@ import { CategoriaCreate,CategoriaUpdate } from "../models/categorias.model";
 export async function getAllCategoria() {
     try {
         const categoria = await db.categorias.findMany()
-        return categoria
+        const selectCategoria = categoria.map((com)=> ({'value':com.id,'label':com.categoria}))
+        return selectCategoria
     } catch (error) {
         console.log("Error al obtener categorias ",error)
         return []

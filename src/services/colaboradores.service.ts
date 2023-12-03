@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { db } from "../utils/db.config";
-import { ColaboradorCrate,ColaboradorUpdate } from "../models/colaboradores.model";
+import { ColaboradorCrate,ColaboradorDeleteResponse,ColaboradorUpdate } from "../models/colaboradores.model";
 
 export async function getAllColabradores() {
     try {
@@ -66,12 +66,12 @@ export async function updateColaborador(id:number,colaborador:ColaboradorUpdate)
 
 export async function deleteColaborador(id:number) {
     try {
-        const result = await db.colaboradores.delete({
+        const result:ColaboradorDeleteResponse = await db.colaboradores.delete({
             where:{
                 id:id
             },
             select:{
-                id:true
+                id:true,
             }
         })
     } catch (error) {

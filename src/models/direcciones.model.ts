@@ -1,5 +1,5 @@
 import {PrismaClient, Prisma} from '@prisma/client'
-import { type } from 'os'
+
 
 const prisma = new PrismaClient()
 
