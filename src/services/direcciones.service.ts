@@ -128,7 +128,22 @@ export async function updateDirecciones(id: number, direccion: DireccionUpdate) 
 
 }
 
+export async function insertDireccionesDeColaborador(body: {Colaboradores_id:number,Direcciones_id:number}){
+    try {
+        const response = await db.direcciones_de_Colaboradores.create({
+            data:body,
+            select:{
+                Colaboradores_id:true,
+                Direcciones_id:true
+            }
+        })
+        return response
+    } catch (error) {
+        console.log("Error en el create, Prisma ", error)
+        return {}
+    }
 
+}
 
 export async function insertDireccionesDeClientes(body: { Clientes_id: number, Direcciones_id: number}) {
     try {

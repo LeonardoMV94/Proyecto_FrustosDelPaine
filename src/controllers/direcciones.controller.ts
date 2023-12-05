@@ -73,6 +73,20 @@ router.delete("/:id", async (request: Request, response: Response) => {
     }
 })
 
+router.post('/direcciones-de-colaborador', async (request:Request, response:Response)=>{
+    const direccionBody = request.body
+    try {
+        const result =await DireccionesServices.insertDireccionesDeColaborador(direccionBody)
+        response.status(204).json(result)
+        
+    } catch (error) {
+        response.status(500).json({ error, message: "Error del servidor ", code: 500 })
+    }
+
+
+})
+
+
 router.post('/direcciones-de-clientes', async (request: Request, response: Response) => {
     const direccionBody = request.body
     try {
