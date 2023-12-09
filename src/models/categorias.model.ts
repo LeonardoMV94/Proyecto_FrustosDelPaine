@@ -4,7 +4,7 @@ const prisma = new PrismaClient()
 
 export type Categoria = Prisma.CategoriasGetPayload<{}>
 
-export type CategoriaCreate = Categoria
+export type CategoriaCreate = Omit<Categoria,'id'>
 
 export type CategoriaUpdate = CategoriaCreate
 

@@ -8,3 +8,4 @@ export type ColaboradorCrate = Colaborador
 
 export type ColaboradorUpdate = Partial<ColaboradorCrate>
  
+export type ColaboradorDeleteResponse = Pick<Colaborador,'id'>

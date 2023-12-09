@@ -1,8 +1,7 @@
 import { Router } from "express"
+import type { Application, Request, Response } from "express"
 import passport from 'passport';
 
-
-import type { Application, Request, Response } from "express"
 import ClientesController from './clientes.controller'
 import VentasController from './ventas.controller'
 import ProveedoresController from './proveedores.controller'
@@ -20,6 +19,8 @@ import MetodoPagoController from './metodo-pago.controller'
 import TipoUsuarioController from './tipo-usuarios.controller'
 import AuthController from './auth.controller'
 
+import * as DireccionesService from '@services/direcciones.service'
+
 export default function routes(app: Application) {
     const router = Router()
 
@@ -28,7 +29,7 @@ export default function routes(app: Application) {
     // endpoint 
     router.get("/test", (request: Request, response: Response) => {
         response.status(200).json({
-            message: "todo ok"
+            message: "ok"
         })
     })
 
@@ -49,12 +50,53 @@ export default function routes(app: Application) {
     router.use("/metodo-pago", MetodoPagoController)
     router.use("/tipo-usuario", TipoUsuarioController)
 
-    router.all('*', (req: Request, res :Response) => {
+    router.get('/comunas/', async (request: Request, response: Response) => {
+        try {
+            const comunas = await DireccionesService.getAllComunas()
+            response.status(200).json(comunas)
+        } catch (error) {
+            response.status(500).json({ error, message: "error al obtener en el servidor ", code: 500 })
+
+        }
+    })
+
+    router.get('/comunas/:idProvincia', async (request: Request, response: Response) => {
+        try {
+            const id: number = parseInt(request.params.idProvincia, 0)
+            const comunas = await DireccionesService.getComunasNested(id)
+            response.status(200).json(comunas)
+        } catch (error) {
+            response.status(500).json({ error, message: "error al obtener en el servidor ", code: 500 })
+
+        }
+    })
+    router.get('/provincias/:idRegion', async (request: Request, response: Response) => {
+        try {
+            const id: number = parseInt(request.params.idRegion, 0)
+            const comunas = await DireccionesService.getOneProvincia(id)
+            response.status(200).json(comunas)
+        } catch (error) {
+            response.status(500).json({ error, message: "error al obtener en el servidor ", code: 500 })
+
+        }
+    })
+
+    router.get('/regiones', async (request: Request, response: Response) => {
+        try {
+            const comunas = await DireccionesService.getRegiones()
+            response.status(200).json(comunas)
+        } catch (error) {
+            response.status(500).json({ error, message: "error al obtener en el servidor ", code: 500 })
+
+        }
+    })
+
+    router.all('*', (req: Request, res: Response) => {
         res.status(400).send({
             message: "No se encontró la ruta solicitada",
-            errorCode : 400,
+            errorCode: 400,
             image: 'https://http.cat/400'
         })
     })
-}
 
+}

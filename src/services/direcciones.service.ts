@@ -25,20 +25,51 @@ export async function getAllDirecciones() {
 
 }
 
-export async function getComunasNested() {
+export async function getAllComunas() {
+    try {
+        const comunas = await db.comunas.findMany()
+        const selectComunas = comunas.map((com) => ({ 'value': com.id_comuna, 'label': com.comuna}) )
+        return selectComunas
+    } catch (error) {
+        console.log("Error al Obtener comunas ", error)
+        return {}
+    }
+}
+
+export async function getComunasNested(id: number) {
     try {
         const comunas = await db.comunas.findMany({
-            include: {
-                Provincias: {
-                    include: {
-                        Regiones: true
-                    }
-                }
+            where: {
+                provincia_id: id
             }
         })
         return comunas
     } catch (error) {
-        console.log("Error al Obtener Direcciones ", error)
+        console.log("Error al Obtener comunas ", error)
+        return {}
+    }
+}
+
+export async function getOneProvincia(id: number) {
+    try {
+        const provincia = await db.provincias.findFirst({
+            where: {
+                region_id: id
+            }
+        })
+        return provincia
+    } catch (error) {
+        console.log("Error al Obtener provincias ", error)
+        return {}
+    }
+}
+
+export async function getRegiones() {
+    try {
+        const region = await db.regiones.findMany()
+        return region
+    } catch (error) {
+        console.log("Error al Obtener regiones ", error)
         return {}
     }
 }
@@ -97,6 +128,38 @@ export async function updateDirecciones(id: number, direccion: DireccionUpdate) 
 
 }
 
+export async function insertDireccionesDeColaborador(body: {Colaboradores_id:number,Direcciones_id:number}){
+    try {
+        const response = await db.direcciones_de_Colaboradores.create({
+            data:body,
+            select:{
+                Colaboradores_id:true,
+                Direcciones_id:true
+            }
+        })
+        return response
+    } catch (error) {
+        console.log("Error en el create, Prisma ", error)
+        return {}
+    }
+
+}
+
+export async function insertDireccionesDeClientes(body: { Clientes_id: number, Direcciones_id: number}) {
+    try {
+        const response = await db.direcciones_de_Clientes.create({
+            data: body,
+            select: {
+                Clientes_id: true,
+                Direcciones_id: true
+            }
+        })
+        return response
+    } catch (error) {
+        console.log("Error en el create, Prisma ", error)
+        return {}
+    }
+}
 
 export async function deleteDireccion(id: number) {
     try {
@@ -109,7 +172,8 @@ export async function deleteDireccion(id: number) {
             }
         })
     } catch (error) {
-
+        console.log("Error en el delete, Prisma ", error)
+        return {}
     }
 
 }

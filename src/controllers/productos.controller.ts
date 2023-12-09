@@ -42,7 +42,6 @@ router.post("/",async(request:Request,response:Response)=>{
         const productoBody = request.body
         const result = await ProductosServices.createProducto(productoBody)
         return response.status(201).json(result)
-        
     } catch (error:any) {
         if(error instanceof Prisma.PrismaClientKnownRequestError){
             return response.status(500).json({

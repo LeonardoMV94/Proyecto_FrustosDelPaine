@@ -1,6 +1,6 @@
-import { Prisma } from "@prisma/client";
 import { db } from "../utils/db.config";
 import { ColaboradorCrate, ColaboradorUpdate } from "../models/colaboradores.model";
+
 
 export async function getAllColabradores() {
     try {
@@ -89,8 +89,10 @@ export async function deleteColaborador(id: number) {
             },
             select: {
                 id: true
+
             }
         })
+        return result
     } catch (error) {
         console.log("Error Prisma delete ", error)
     }
