@@ -2,5 +2,5 @@ node_modules
 .env
 mysql_data
 postgres_data
-postgres-data
+postgres_data
 dist

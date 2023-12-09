@@ -36,6 +36,26 @@ export async function getOneUsuarioById(id:number) {
     
 }
 
+export async function getOneUsuarioByCorreo(correo: string) {
+    try {
+        const usuario = await db.usuarios.findFirst({
+            where: {
+                Colaboradores: {
+                    correo: correo
+                }
+            },
+            include: {
+                Colaboradores: true
+            }
+        })
+        return usuario
+    } catch (error) {
+        console.log("Error al obtener Usuarios", error)
+        return
+    }
+    
+}
+
 export async function createUsuario(usuario :Usuario) {
     try {
         return await db.usuarios.create({
