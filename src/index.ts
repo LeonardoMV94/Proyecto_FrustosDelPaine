@@ -2,6 +2,7 @@ import express from "express"
 import type { Application } from "express"
 import cors from "cors"
 import controllers from "./controllers/index"
+import config from "./config"
 
 const app: Application = express()
 const port = config.port
@@ -11,7 +12,6 @@ app.use(express.json())
 
 // auth strategies
 import './utils/auth/index'
-import config from "./config"
 
 controllers(app)
 
