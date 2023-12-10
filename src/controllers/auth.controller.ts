@@ -25,7 +25,7 @@ router.post('/login',
                 sub: user.correo,
                 role: user.rol
             };
-            const token = jwt.sign(payload, config.jwtSecret);
+            const token = jwt.sign(payload, 'botitas');
             res.json({ user, token });
         } catch (error) {
             next(error);
