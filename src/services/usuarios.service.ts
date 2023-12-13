@@ -1,5 +1,5 @@
 import { Prisma } from "@prisma/client"
-import {db} from '../utils/db.config'
+import { db } from '../utils/db.config'
 import { Usuario, UsuarioCreate, UsuarioUpdate } from "../models/ususarios.model"
 import { Colaborador } from '../models/colaboradores.model';
 
@@ -18,11 +18,11 @@ export async function getAllUsuarios() {
     }
 }
 
-export async function getOneUsuarioById(id:number) {
+export async function getOneUsuarioById(id: number) {
     try {
         const usuario = await db.usuarios.findFirst({
             where: {
-                id:id
+                id: id
             },
             include: {
                 Colaboradores: true
@@ -33,79 +33,76 @@ export async function getOneUsuarioById(id:number) {
         console.log("Error al obtener Usuarios", error)
         return
     }
-    
+
 }
 
 export async function getOneUsuarioByCorreo(correo: string) {
-    try {
-        const usuario = await db.usuarios.findFirst({
-            where: {
-                Colaboradores: {
-                    correo: correo
-                }
-            },
-            include: {
-                Colaboradores: true
+
+    const usuario = await db.usuarios.findFirst({
+        where: {
+            Colaboradores: {
+                correo: correo
             }
-        })
-        return usuario
-    } catch (error) {
-        console.log("Error al obtener Usuarios", error)
-        return
-    }
-    
+        },
+        include: {
+            Colaboradores: true
+        }
+    })
+    if (!usuario) throw new Error('No se encontró el usuario')
+    return usuario
+
 }
 
-export async function createUsuario(usuario :Usuario) {
+export async function createUsuario(usuario: Usuario) {
     try {
         return await db.usuarios.create({
             data: usuario,
             select: {
-                id: true,                
+                id: true,
             }
         })
     } catch (error) {
-        console.log("createUsuario error: ",error)
-        return{}
+        console.log("createUsuario error: ", error)
+        return {}
     }
-    
+
 }
 
-export async function updateUsuario(id:number,usuario:UsuarioUpdate) {
+export async function updateUsuario(id: number, usuario: UsuarioUpdate) {
     try {
         const result = await db.usuarios.update({
             data: usuario,
-            select:{
-                id:true,
-                pass_encrypt:true,
-                ultimo_login:true
+            select: {
+                id: true,
+                pass_encrypt: true,
+                ultimo_login: true
 
             },
-            where:{
-                id:id
+            where: {
+                id: id
             }
         })
         return result
     } catch (error) {
         console.log("Eror de prisma", error)
-        return{}
+        return {}
     }
-    
+
 }
 
-export async function deleteUsuario(id:number) {
+export async function deleteUsuario(id: number) {
     try {
         const result = await db.usuarios.delete({
-            where:{
-                id :id
+            where: {
+                id: id
             },
             select: {
-                id :true,
+                id: true,
             }
         })
     } catch (error) {
-        
+
     }
 
-    
+
 }

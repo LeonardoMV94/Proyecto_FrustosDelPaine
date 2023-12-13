@@ -13,7 +13,7 @@ const LocalStrategy = new Strategy({ usernameField: "correo", passwordField: "pa
         if (!usuario) {
             done(boom.unauthorized(), false);
         }
-        const isMatch = await bcrypt.compare(passUsuario, usuario!.pass_encrypt!);
+        const isMatch = await bcrypt.compare(passUsuario, usuario.Colaboradores.correo);
         if (!isMatch) {
             done(boom.unauthorized(), false);
         }

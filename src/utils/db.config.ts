@@ -10,7 +10,7 @@ declare global {
 //si no existe la variable global __db, crea una nueva instancia de PrismaClient
 if (!global.__db) {
     // instancia de prisma client
-    global.__db = new PrismaClient({ log: ['query', 'info'] });
+    global.__db = new PrismaClient({ log: ['query', 'info', "error", "warn"] });
 }
 //asigna la variable global __db a la variable db
 db = global.__db;

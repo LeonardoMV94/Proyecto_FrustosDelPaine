@@ -17,11 +17,12 @@ export async function getAllColabradores() {
 
 export async function getOneColaboradorByCorreo(correo: string) {
     try {
-        const colaborador = await db.colaboradores.findFirst({
+        const colaborador = await db.colaboradores.findUnique({
             where: {
                 correo: correo
             }
         })
+        if (!colaborador) throw new Error('No se encontró el usuario')
         return colaborador
     } catch (error) {
         console.log("Error al obtener Colaborador ", error)

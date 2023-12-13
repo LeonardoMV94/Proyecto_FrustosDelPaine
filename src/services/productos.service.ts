@@ -4,7 +4,11 @@ import { ProductoCreate,ProductoUpdate} from "../models/productos.model";
 
 export async function getAllProductos() {
     try {
-        const productos = await db.productos.findMany()
+        const productos = await db.productos.findMany({
+            include: {
+                Categorias: true
+            }
+        })
         return productos
     } catch (error) {
         console.log("Error al obtener productos ",error)
@@ -31,7 +35,11 @@ export async function getOneProductoById(id:number) {
 export async function createProducto(productos: ProductoCreate) {
     try {
         return await db.productos.create({
-            data:productos
+            data:productos,
+            select: {
+                id: true,
+                descripcion: true
+            }
         })
     } catch (error) {
         console.log("Error al crear proucto ",error)

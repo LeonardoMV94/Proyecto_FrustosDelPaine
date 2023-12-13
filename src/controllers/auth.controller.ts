@@ -11,7 +11,8 @@ interface CustomRequest<T> extends Request {
     body: T
 }
 
-router.post('/login',
+router.post(
+    '/login',
     passport.authenticate('local', { session: false }),
     async (req: CustomRequest<UsuarioRequest>, res: Response, next: NextFunction) => {
         try {

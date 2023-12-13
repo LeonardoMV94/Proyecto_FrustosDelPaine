@@ -2080,13 +2080,34 @@ async function main() {
     ]
 
     const [regionesResult, provinciasResult, comunasResult] = await prisma.$transaction([
-        prisma.regiones.createMany({ data: regiones}),
-        prisma.provincias.createMany({data: provincias}),
-        prisma.comunas.createMany({data: comunas})
+        prisma.regiones.createMany({ data: regiones }),
+        prisma.provincias.createMany({ data: provincias }),
+        prisma.comunas.createMany({ data: comunas })
     ])
 
-    const clienteConDireccion = await prisma.clientes.create({
-        data: {
+    const clienteConDireccion = await prisma.clientes.createMany({
+        data: [
+            {
+                rut: "777777777",
+                nombre: "numerosiete",
+                apellido: "numerosiete",
+                correo: "numero@siete.co",
+                celular: "(+56) 9 77777777",
+                direccion_id: null
+            },
+            {
+                rut: "444444444",
+                nombre: "sebin",
+                apellido: "sebibi",
+                correo: "kajshjkas@djksd.cl",
+                celular: "(+56) 9 33344444",
+                direccion_id: null
+            }]
+    });
+
+    const cliente = await prisma.clientes.create({
+        data:
+        {
             nombre: 'Sebastian',
             apellido: 'Muñoz',
             celular: '+56911223344',
@@ -2105,9 +2126,32 @@ async function main() {
                     },
                 },
             },
-        },
-    });
+        }
+    })
+
+    const colaboradores = await prisma.colaboradores.createMany({
+        data: [
+            {
+                "id": 1,
+                "nombres": "seba",
+                "apellidos": "munoz",
+                "direccion_id": 1,
+                "correo": "seba@gmail.com",
+                "celular": "993493492"
+            },
+            {
+                "id": 2,
+                "nombres": "jereklein",
+                "apellidos": "Gomez",
+                "direccion_id": 1,
+                "correo": "jereklein@gmail.com",
+                "celular": "888773333"
+            }
+        ]
+    })
     console.log("Insert Seed Prisma: ", { clienteConDireccion })
+    console.log("Insert Seed Prisma: ", cliente)
+    console.log("Insert Seed Prisma: ", colaboradores)
     console.log("Insert regiones", regionesResult)
     console.log("Insert provincias", provinciasResult)
     console.log("Insert comunas", comunasResult)
