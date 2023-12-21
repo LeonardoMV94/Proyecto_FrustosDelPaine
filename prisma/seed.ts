@@ -2129,6 +2129,23 @@ async function main() {
         }
     })
 
+    const metodosPago = await prisma.metodo_Pago.createMany({
+        data: [
+            {
+                id: 1,
+                metodo: 'efectivo'
+            },
+            {
+                id: 2,
+                metodo: 'debito'
+            },
+            {
+                id: 3,
+                metodo: 'credito'
+            },
+        ]
+    })
+
     const colaboradores = await prisma.colaboradores.createMany({
         data: [
             {
@@ -2149,9 +2166,31 @@ async function main() {
             }
         ]
     })
+
+    const tipoUsuario = await prisma.tipos_Usuarios.createMany({
+        data: [
+            {
+                tipo_usuario: 'admin'
+            },
+            {
+                tipo_usuario: 'colaborador'
+            }
+        ]
+    })
+    const usuario = await prisma.usuarios.create({
+        data: {
+            Tipos_Usuarios_id: 1,
+            Colaboradores_id: 1,
+            pass_encrypt: "botitas"
+        }
+
+    })
     console.log("Insert Seed Prisma: ", { clienteConDireccion })
     console.log("Insert Seed Prisma: ", cliente)
+    console.log("Insert Seed Prisma: ", metodosPago)
+    console.log("Insert Seed Prisma: ", tipoUsuario)
     console.log("Insert Seed Prisma: ", colaboradores)
+    console.log("Insert Seed Prisma: ", usuario)
     console.log("Insert regiones", regionesResult)
     console.log("Insert provincias", provinciasResult)
     console.log("Insert comunas", comunasResult)

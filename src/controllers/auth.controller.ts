@@ -8,25 +8,28 @@ import config from '@src/config';
 const router = Router();
 
 interface CustomRequest<T> extends Request {
-    body: T
+    body: UsuarioRequest
+    user: UsuarioRequest
 }
 
 router.post(
     '/login',
     passport.authenticate('local', { session: false }),
-    async (req: CustomRequest<UsuarioRequest>, res: Response, next: NextFunction) => {
+    async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const user = req.body.usuario;
+            const user: any = req.user;
+            console.log(`login: body `, req.body)
+
             if (!user) {
                 return res.status(401).json({
                     message: 'Invalid username or password'
                 });
             }
             const payload = {
-                sub: user.correo,
-                role: user.rol
+                sub: user.usuario.correo,
+                role: user.usuario.rol
             };
-            const token = jwt.sign(payload, 'botitas');
+            const token = jwt.sign(payload, 'botitas', {expiresIn: '3h'}); // payload, secret key, expiration time
             res.json({ user, token });
         } catch (error) {
             next(error);

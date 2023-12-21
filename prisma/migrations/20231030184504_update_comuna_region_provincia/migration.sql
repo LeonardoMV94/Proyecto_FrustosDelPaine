@@ -22,50 +22,52 @@
   - Added the required column `ordinal` to the `Regiones` table without a default value. This is not possible if the table is not empty.
 
 */-- DropForeignKey
-ALTER TABLE Comunas DROP CONSTRAINT Comunas_Provincias_id_fkey;
+-- Eliminar la restricción de clave foránea en la tabla Comunas
+-- Eliminar la restricción de clave foránea en la tabla Comunas
+ALTER TABLE Comunas DROP FOREIGN KEY Comunas_provincia_id_fkey;
 
--- DropForeignKey
-ALTER TABLE Direcciones DROP CONSTRAINT Direcciones_Comunas_id_fkey;
+-- Eliminar la restricción de clave foránea en la tabla Direcciones
+ALTER TABLE Direcciones DROP FOREIGN KEY Direcciones_Comunas_id_fkey;
 
--- DropForeignKey
-ALTER TABLE Provincias DROP CONSTRAINT Provincias_Regiones_id_fkey;
+-- Eliminar la restricción de clave foránea en la tabla Provincias
+ALTER TABLE Provincias DROP FOREIGN KEY Provincias_region_id_fkey;
 
--- AlterTable
+-- Modificar la tabla Comunas (MySQL)
 ALTER TABLE Comunas
-    DROP CONSTRAINT Comunas_pkey,
-    DROP COLUMN Provincias_id,
-    DROP COLUMN id,
-    ADD COLUMN id_comuna SERIAL PRIMARY KEY,
-    ADD COLUMN provincia_id INTEGER NOT NULL,
-    ADD PRIMARY KEY (id_comuna);
+    DROP PRIMARY KEY,
+    DROP COLUMN provincia_id,
+    DROP COLUMN id_comuna,
+    ADD COLUMN id INT AUTO_INCREMENT PRIMARY KEY,
+    ADD COLUMN Provincias_id INT NOT NULL,
+    ADD PRIMARY KEY (id);
 
--- AlterTable
+-- Modificar la tabla Provincias (MySQL)
 ALTER TABLE Provincias
-    DROP CONSTRAINT Provincias_pkey,
-    DROP COLUMN Regiones_id,
-    DROP COLUMN id,
-    DROP COLUMN provincia,
-    ADD COLUMN id_provincia SERIAL PRIMARY KEY,
-    ADD COLUMN nombre VARCHAR(64) NOT NULL,
-    ADD COLUMN region_id INTEGER NOT NULL,
-    ADD PRIMARY KEY (id_provincia);
+    DROP PRIMARY KEY,
+    DROP COLUMN region_id,
+    DROP COLUMN id_provincia,
+    DROP COLUMN nombre,
+    ADD COLUMN id INT AUTO_INCREMENT PRIMARY KEY,
+    ADD COLUMN provincia VARCHAR(64) NOT NULL,
+    ADD COLUMN Regiones_id INT NOT NULL,
+    ADD PRIMARY KEY (id);
 
--- AlterTable
+-- Modificar la tabla Regiones (MySQL)
 ALTER TABLE Regiones
-    DROP CONSTRAINT Regiones_pkey,
-    DROP COLUMN id,
-    DROP COLUMN numeracion,
-    DROP COLUMN region,
-    ADD COLUMN id_region SERIAL PRIMARY KEY,
-    ADD COLUMN nombre VARCHAR(64) NOT NULL,
-    ADD COLUMN ordinal VARCHAR(4) NOT NULL,
-    ADD PRIMARY KEY (id_region);
+    DROP PRIMARY KEY,
+    DROP COLUMN id_region,
+    DROP COLUMN nombre,
+    DROP COLUMN ordinal,
+    ADD COLUMN id INT AUTO_INCREMENT PRIMARY KEY,
+    ADD COLUMN region VARCHAR(64) NOT NULL,
+    ADD COLUMN numeracion VARCHAR(4) NOT NULL,
+    ADD PRIMARY KEY (id);
 
--- AddForeignKey
-ALTER TABLE Comunas ADD CONSTRAINT Comunas_provincia_id_fkey FOREIGN KEY (provincia_id) REFERENCES Provincias(id_provincia) ON DELETE RESTRICT ON UPDATE CASCADE;
+-- Añadir clave foránea a la tabla Comunas
+ALTER TABLE Comunas ADD CONSTRAINT Comunas_Provincias_id_fkey FOREIGN KEY (Provincias_id) REFERENCES Provincias(id) ON DELETE RESTRICT ON UPDATE CASCADE;
 
--- AddForeignKey
-ALTER TABLE Direcciones ADD CONSTRAINT Direcciones_Comunas_id_fkey FOREIGN KEY (Comunas_id) REFERENCES Comunas(id_comuna) ON DELETE RESTRICT ON UPDATE CASCADE;
+-- Añadir clave foránea a la tabla Direcciones
+ALTER TABLE Direcciones ADD CONSTRAINT Direcciones_Comunas_id_fkey FOREIGN KEY (Comunas_id) REFERENCES Comunas(id) ON DELETE RESTRICT ON UPDATE CASCADE;
 
--- AddForeignKey
-ALTER TABLE Provincias ADD CONSTRAINT Provincias_region_id_fkey FOREIGN KEY (region_id) REFERENCES Regiones(id_region) ON DELETE RESTRICT ON UPDATE CASCADE;
+-- Añadir clave foránea a la tabla Provincias
+ALTER TABLE Provincias ADD CONSTRAINT Provincias_Regiones_id_fkey FOREIGN KEY (Regiones_id) REFERENCES Regiones(id) ON DELETE RESTRICT ON UPDATE CASCADE;

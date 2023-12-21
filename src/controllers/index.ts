@@ -20,6 +20,7 @@ import TipoUsuarioController from './tipo-usuarios.controller'
 import AuthController from './auth.controller'
 
 import * as DireccionesService from '@services/direcciones.service'
+import { checkAdminRol } from "@src/middlewares/auth.handler";
 
 export default function routes(app: Application) {
     const router = Router()
@@ -33,22 +34,24 @@ export default function routes(app: Application) {
         })
     })
 
-    router.use('/login', AuthController)
-    router.use("/clientes", ClientesController)
-    router.use("/ventas", VentasController)
-    router.use("/proveedores", ProveedoresController)
-    router.use("/usuarios", UsuariosController)
-    router.use("/colaboradores", ColaboradoresController)
-    router.use("/productos", ProductosController)
-    router.use("/categorias", CategoriasController)
-    router.use("/direcciones", DireccionesController)
-    router.use("/compras", ComprasController)
-    router.use("/detalle-compras", DetalleComprasController)
-    router.use("/detalle-pago", DetallePagoController)
-    router.use("/detalle-venta", DetalleVentaController)
-    router.use("/estado-pago", EstadoPagoController)
-    router.use("/metodo-pago", MetodoPagoController)
-    router.use("/tipo-usuario", TipoUsuarioController)
+    
+
+    router.use('/auth', AuthController)
+    router.use("/clientes", passport.authenticate('jwt', { session: false }), ClientesController)
+    router.use("/ventas", passport.authenticate('jwt', { session: false }), VentasController)
+    router.use("/proveedores", passport.authenticate('jwt', { session: false }), ProveedoresController)
+    router.use("/usuarios", passport.authenticate('jwt', { session: false }), checkAdminRol, UsuariosController)
+    router.use("/colaboradores", passport.authenticate('jwt', { session: false }),checkAdminRol, ColaboradoresController)
+    router.use("/productos", passport.authenticate('jwt', { session: false }), ProductosController)
+    router.use("/categorias", passport.authenticate('jwt', { session: false }), CategoriasController)
+    router.use("/direcciones", passport.authenticate('jwt', { session: false }), DireccionesController)
+    router.use("/compras", passport.authenticate('jwt', { session: false }), ComprasController)
+    router.use("/detalle-compras", passport.authenticate('jwt', { session: false }), DetalleComprasController)
+    router.use("/detalle-pago", passport.authenticate('jwt', { session: false }), DetallePagoController)
+    router.use("/detalle-venta", passport.authenticate('jwt', { session: false }), DetalleVentaController)
+    router.use("/estado-pago", passport.authenticate('jwt', { session: false }), EstadoPagoController)
+    router.use("/metodo-pago", passport.authenticate('jwt', { session: false }), MetodoPagoController)
+    router.use("/tipo-usuario", passport.authenticate('jwt', { session: false }),checkAdminRol, TipoUsuarioController)
 
     router.get('/comunas/', async (request: Request, response: Response) => {
         try {

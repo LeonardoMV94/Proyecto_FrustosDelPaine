@@ -6,3 +6,4 @@
 */
 -- AlterTable
 ALTER TABLE `Usuarios` MODIFY `ultimo_login` TIMESTAMP(3) NULL;
+

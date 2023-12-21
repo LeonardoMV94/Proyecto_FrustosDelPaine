@@ -1,28 +1,33 @@
 -- AlterTable
 ALTER TABLE Detalle_venta 
-    ALTER COLUMN cantidad SET NOT NULL,
-    ALTER COLUMN precio_neto SET NOT NULL,
-    ALTER COLUMN precio_total_neto SET NOT NULL;
+    MODIFY COLUMN cantidad INT NOT NULL,
+    MODIFY COLUMN precio_neto DOUBLE NOT NULL,
+    MODIFY COLUMN precio_total_neto INT NOT NULL;
+
 
 -- AlterTable
 ALTER TABLE Productos 
-    ALTER COLUMN descripcion SET NOT NULL,
-    ALTER COLUMN peso_gramos SET NOT NULL,
-    ALTER COLUMN precio_neto SET NOT NULL,
-    ALTER COLUMN stock SET NOT NULL;
+    MODIFY COLUMN descripcion VARCHAR(45) NOT NULL,
+    MODIFY COLUMN peso_gramos INT NOT NULL,
+    MODIFY COLUMN precio_neto INT NOT NULL,
+    MODIFY COLUMN stock INT NOT NULL;
+
 
 -- AlterTable
 ALTER TABLE Proveedores 
-    ALTER COLUMN rut SET NOT NULL,
-    ALTER COLUMN giro SET NOT NULL,
-    ALTER COLUMN nombre SET NOT NULL,
-    ALTER COLUMN telefono SET NOT NULL,
-    ALTER COLUMN correo SET NOT NULL,
-    ALTER COLUMN pagina_web SET NOT NULL;
+    MODIFY COLUMN rut INT NOT NULL,
+    MODIFY COLUMN giro INT NOT NULL,
+    MODIFY COLUMN nombre VARCHAR(45) NOT NULL,
+    MODIFY COLUMN telefono INT NOT NULL,
+    MODIFY COLUMN correo VARCHAR(45) NOT NULL,
+    MODIFY COLUMN pagina_web VARCHAR(45) NOT NULL;
+
 
 -- AlterTable
 ALTER TABLE Venta 
-    ALTER COLUMN total SET NOT NULL;
+    MODIFY COLUMN total INT NOT NULL;
+
 
 -- CreateIndex
 CREATE UNIQUE INDEX Proveedores_correo_key ON Proveedores(correo);
+

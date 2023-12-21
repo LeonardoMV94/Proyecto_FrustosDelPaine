@@ -7,19 +7,22 @@ import * as UsuariosService from "@services/usuarios.service";
 // const { Strategy } = passport;
 const service = UsuariosService;
 
-const LocalStrategy = new Strategy({ usernameField: "correo", passwordField: "pass_encrypt" }, async (correo, passUsuario, done) => {
+const LocalStrategy = new Strategy({ usernameField: "correo", passwordField: "pass_encrypt" }, async (correo, passEncrypt, done) => {
     try {
-        const usuario = await service.getOneUsuarioByCorreo(correo);
-        if (!usuario) {
+        const user = await service.getOneUsuarioByCorreoToAuth(correo);
+        console.log(`passport usuario ${user.usuario.correo}`)
+        console.log(`Strategy: ${passEncrypt} ${user.usuario.password?.trim()}`)
+        if (!user) {
             done(boom.unauthorized(), false);
         }
-        const isMatch = await bcrypt.compare(passUsuario, usuario.Colaboradores.correo);
+        const isMatch = await bcrypt.compare(passEncrypt, user.usuario.password!);
         if (!isMatch) {
+            console.log("contraseñas no coinciden")
             done(boom.unauthorized(), false);
         }
-        //console.log('autorizado!: ', colaborador.dataValues.rut_colaborador)
+        console.log('autorizado!: ', user.usuario.correo)
 
-        done(null, usuario!);
+        done(null, user!);
 
     } catch (error) {
         done(error, false);

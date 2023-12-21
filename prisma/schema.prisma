@@ -18,8 +18,8 @@ model Clientes {
   rut                     String?                   @db.VarChar(45)
   nombre                  String                    @db.VarChar(45)
   apellido                String                    @db.VarChar(45)
-  correo                  String                   @unique @db.VarChar(45)
-  celular                 String                   @unique @db.VarChar(45)
+  correo                  String                    @unique @db.VarChar(45)
+  celular                 String                    @unique @db.VarChar(45)
   direccion_id            Int?
   Direcciones_de_Clientes Direcciones_de_Clientes[]
   Venta                   Venta[]
@@ -31,7 +31,7 @@ model Colaboradores {
   apellidos                    String                         @db.VarChar(45)
   direccion_id                 Int
   correo                       String                         @unique @db.VarChar(45)
-  celular                      String                        @unique @db.VarChar(45)
+  celular                      String                         @unique @db.VarChar(45)
   Direcciones_de_Colaboradores Direcciones_de_Colaboradores[]
   Usuarios                     Usuarios[]
 }
@@ -47,14 +47,19 @@ model Compras {
   Proveedores     Proveedores       @relation(fields: [Proveedores_id], references: [id])
   Usuarios        Usuarios          @relation(fields: [Usuarios_id], references: [id])
   Detalle_Compras Detalle_Compras[]
+
+  @@index([Proveedores_id], map: "Compras_Proveedores_id_fkey")
+  @@index([Usuarios_id], map: "Compras_Usuarios_id_fkey")
 }
 
 model Comunas {
-  id_comuna     Int           @id @default(autoincrement())
-  comuna        String        @db.VarChar(45)
-  provincia_id  Int
-  Direcciones   Direcciones[]
-  Provincias    Provincias    @relation(fields: [provincia_id], references: [id_provincia])
+  id_comuna    Int           @id @default(autoincrement())
+  comuna       String        @db.VarChar(45)
+  provincia_id Int
+  Provincias   Provincias    @relation(fields: [provincia_id], references: [id_provincia])
+  Direcciones  Direcciones[]
+
+  @@index([provincia_id], map: "Comunas_provincia_id_fkey")
 }
 
 model Detalle_Compras {
@@ -67,6 +72,7 @@ model Detalle_Compras {
   Productos    Productos @relation(fields: [Productos_id], references: [id])
 
   @@id([Compras_id, Productos_id])
+  @@index([Productos_id], map: "Detalle_Compras_Productos_id_fkey")
 }
 
 model Detalle_pago {
@@ -76,6 +82,8 @@ model Detalle_pago {
   fecha                 DateTime?               @db.Date
   Metodo_Pago           Metodo_Pago             @relation(fields: [Metodo_Pago_id], references: [id])
   Detalle_pago_en_Venta Detalle_pago_en_Venta[]
+
+  @@index([Metodo_Pago_id], map: "Detalle_pago_Metodo_Pago_id_fkey")
 }
 
 model Detalle_pago_en_Venta {
@@ -85,6 +93,7 @@ model Detalle_pago_en_Venta {
   Venta           Venta        @relation(fields: [Venta_id], references: [id])
 
   @@id([Detalle_pago_id, Venta_id])
+  @@index([Venta_id], map: "Detalle_pago_en_Venta_Venta_id_fkey")
 }
 
 model Detalle_venta {
@@ -93,10 +102,11 @@ model Detalle_venta {
   cantidad          Int
   precio_neto       Int
   precio_total_neto Int
-  Venta             Venta     @relation(fields: [Venta_id], references: [id])
   Productos         Productos @relation(fields: [Producto_id], references: [id])
+  Venta             Venta     @relation(fields: [Venta_id], references: [id])
 
   @@id([Producto_id, Venta_id])
+  @@index([Venta_id], map: "Detalle_venta_Venta_id_fkey")
 }
 
 model Direcciones {
@@ -109,6 +119,8 @@ model Direcciones {
   Direcciones_de_Clientes      Direcciones_de_Clientes[]
   Direcciones_de_Colaboradores Direcciones_de_Colaboradores[]
   Proveedores                  Proveedores[]
+
+  @@index([Comunas_id], map: "Direcciones_Comunas_id_fkey")
 }
 
 model Direcciones_de_Clientes {
@@ -118,6 +130,7 @@ model Direcciones_de_Clientes {
   Direcciones    Direcciones @relation(fields: [Direcciones_id], references: [id])
 
   @@id([Clientes_id, Direcciones_id])
+  @@index([Direcciones_id], map: "Direcciones_de_Clientes_Direcciones_id_fkey")
 }
 
 model Direcciones_de_Colaboradores {
@@ -127,6 +140,7 @@ model Direcciones_de_Colaboradores {
   Direcciones      Direcciones   @relation(fields: [Direcciones_id], references: [id])
 
   @@id([Colaboradores_id, Direcciones_id])
+  @@index([Direcciones_id], map: "Direcciones_de_Colaboradores_Direcciones_id_fkey")
 }
 
 model Estado_Pago {
@@ -143,7 +157,7 @@ model Metodo_Pago {
 
 model Productos {
   id              Int               @id @default(autoincrement())
-  descripcion     String           @db.VarChar(45)
+  descripcion     String            @db.VarChar(45)
   peso_gramos     Int
   precio_neto     Int
   stock           Int
@@ -152,33 +166,39 @@ model Productos {
   Detalle_Compras Detalle_Compras[]
   Detalle_venta   Detalle_venta[]
   Categorias      Categorias        @relation(fields: [Categorias_id], references: [id])
+
+  @@index([Categorias_id], map: "Productos_Categorias_id_fkey")
 }
 
 model Proveedores {
   id             Int         @id
   rut            Int
   giro           Int
-  nombre         String     @db.VarChar(45)
-  telefono       String     
-  correo         String     @db.VarChar(45) @unique
-  pagina_web     String     @db.VarChar(45)
+  nombre         String      @db.VarChar(45)
+  telefono       String
+  correo         String      @unique @db.VarChar(45)
+  pagina_web     String      @db.VarChar(45)
   Direcciones_id Int
   Compras        Compras[]
   Direcciones    Direcciones @relation(fields: [Direcciones_id], references: [id])
+
+  @@index([Direcciones_id], map: "Proveedores_Direcciones_id_fkey")
 }
 
 model Provincias {
-  id_provincia  Int       @id 
-  nombre        String    @db.VarChar(64)
-  region_id     Int
-  Comunas       Comunas[]
-  Regiones      Regiones  @relation(fields: [region_id], references: [id_region])
+  id_provincia Int       @id
+  nombre       String    @db.VarChar(64)
+  region_id    Int
+  Comunas      Comunas[]
+  Regiones     Regiones  @relation(fields: [region_id], references: [id_region])
+
+  @@index([region_id], map: "Provincias_region_id_fkey")
 }
 
 model Regiones {
-  id_region  Int         @id
-  nombre     String      @db.VarChar(64)
-  ordinal    String      @db.VarChar(4)
+  id_region  Int          @id
+  nombre     String       @db.VarChar(64)
+  ordinal    String       @db.VarChar(4)
   Provincias Provincias[]
 }
 
@@ -190,14 +210,17 @@ model Tipos_Usuarios {
 
 model Usuarios {
   id                Int            @id @default(autoincrement())
-  pass_encrypt      String?        @db.VarChar(45)
+  pass_encrypt      String?        @db.VarChar(255)
   Tipos_Usuarios_id Int
   Colaboradores_id  Int
   ultimo_login      DateTime?      @db.Date
   Compras           Compras[]
-  Venta             Venta[]
   Colaboradores     Colaboradores  @relation(fields: [Colaboradores_id], references: [id])
   Tipos_Usuarios    Tipos_Usuarios @relation(fields: [Tipos_Usuarios_id], references: [id])
+  Venta             Venta[]
+
+  @@index([Colaboradores_id], map: "Usuarios_Colaboradores_id_fkey")
+  @@index([Tipos_Usuarios_id], map: "Usuarios_Tipos_Usuarios_id_fkey")
 }
 
 model Venta {
@@ -212,6 +235,10 @@ model Venta {
   Detalle_pago_en_Venta Detalle_pago_en_Venta[]
   Detalle_venta         Detalle_venta[]
   Clientes              Clientes                @relation(fields: [Clientes_id], references: [id])
-  Usuarios              Usuarios                @relation(fields: [Usuarios_id], references: [id])
   Estado_Pago           Estado_Pago             @relation(fields: [Estado_Pago_id], references: [id])
+  Usuarios              Usuarios                @relation(fields: [Usuarios_id], references: [id])
+
+  @@index([Clientes_id], map: "Venta_Clientes_id_fkey")
+  @@index([Estado_Pago_id], map: "Venta_Estado_Pago_id_fkey")
+  @@index([Usuarios_id], map: "Venta_Usuarios_id_fkey")
 }

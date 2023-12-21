@@ -1,7 +1,8 @@
-import { Prisma } from "@prisma/client"
 import { db } from '../utils/db.config'
 import { Usuario, UsuarioCreate, UsuarioUpdate } from "../models/ususarios.model"
 import { Colaborador } from '../models/colaboradores.model';
+import bcrypt from 'bcrypt'
+import { TipoUsuario } from '../models/tipoUsuarios.model';
 
 export async function getAllUsuarios() {
     try {
@@ -36,6 +37,30 @@ export async function getOneUsuarioById(id: number) {
 
 }
 
+export async function getOneUsuarioByCorreoToAuth(correo: string) {
+    const usuario = await db.usuarios.findFirst({
+        where: {
+            Colaboradores: {
+                correo: correo
+            }
+        },
+        include: {
+            Colaboradores: true,
+            Tipos_Usuarios: true
+        }
+    })
+
+    const datos = {
+        usuario: { 
+            correo: usuario?.Colaboradores.correo, 
+            password: usuario?.pass_encrypt
+        },
+        rol: usuario?.Tipos_Usuarios.tipo_usuario
+    }
+
+    return datos
+}
+
 export async function getOneUsuarioByCorreo(correo: string) {
 
     const usuario = await db.usuarios.findFirst({
@@ -55,8 +80,15 @@ export async function getOneUsuarioByCorreo(correo: string) {
 
 export async function createUsuario(usuario: Usuario) {
     try {
+        const { Colaboradores_id, Tipos_Usuarios_id, pass_encrypt: pass } = usuario
+        const pass_encrypt = await bcrypt.hash(pass!, 12)
         return await db.usuarios.create({
-            data: usuario,
+            data: {
+                Colaboradores_id,
+                Tipos_Usuarios_id,
+                pass_encrypt,
+                ultimo_login: new Date()
+            },
             select: {
                 id: true,
             }
