@@ -2,6 +2,7 @@ FROM node:18-alpine as builder
 WORKDIR /home/app
 COPY package*.json ./
 COPY tsconfig.json ./
+COPY ./front ./front
 COPY ./src ./src
 COPY ./prisma/schema.prisma ./prisma/schema.prisma
 RUN npm install && npm run build
@@ -13,6 +14,7 @@ ENV DATABASE_URL=mysql://root:CaeFfC5GhfF3-da5Hg-55d-A5dea2hEf@monorail.proxy.rl
 WORKDIR /home/app
 COPY --from=builder /home/app/package*.json ./
 COPY --from=builder /home/app/dist ./dist
+COPY --from=builder /home/app/front ./front
 COPY --from=builder /home/app/prisma ./prisma
 RUN npm ci --only=production && npx prisma generate
 
