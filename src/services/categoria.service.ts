@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+
 import { db } from "../utils/db.config";
 import { CategoriaCreate,CategoriaUpdate } from "../models/categorias.model";
 

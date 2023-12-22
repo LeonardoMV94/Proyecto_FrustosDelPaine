@@ -2,7 +2,6 @@ import express from "express"
 import type { Request,Response } from "express"
 import * as metodoPAgoServices from "../services/metodo-pago.service"
 import { Prisma } from "@prisma/client"
-import { CategoriaUpdate } from "../models/categorias.model"
 import { MetodoPagoUpdate } from "../models/metodo-pago.model"
 
 const router = express.Router()

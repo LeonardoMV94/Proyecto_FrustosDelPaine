@@ -1,8 +1,6 @@
 import { db } from '../utils/db.config'
-import { Usuario, UsuarioCreate, UsuarioUpdate } from "../models/ususarios.model"
-import { Colaborador } from '../models/colaboradores.model';
+import { Usuario, UsuarioUpdate } from "../models/ususarios.model"
 import bcrypt from 'bcrypt'
-import { TipoUsuario } from '../models/tipoUsuarios.model';
 
 export async function getAllUsuarios() {
     try {

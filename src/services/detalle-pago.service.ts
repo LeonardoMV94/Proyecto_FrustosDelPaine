@@ -1,4 +1,3 @@
-import { Prisma } from "@prisma/client";
 import { db } from "../utils/db.config";
 import { DetallePagoCreate,DetallePagoUpdate } from "../models/detalle-pago.model";
 

@@ -1,9 +1,8 @@
 import { Router } from "express";
 import type { Response, Request, NextFunction } from 'express'
-import { UsuarioRequest } from '@models/ususarios.model'
+import { UsuarioRequest } from '../models/ususarios.model'
 import passport from "passport";
 import jwt from 'jsonwebtoken';
-import config from '@src/config';
 
 const router = Router();
 

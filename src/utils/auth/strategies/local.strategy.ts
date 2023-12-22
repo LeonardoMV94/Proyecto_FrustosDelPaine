@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import boom from '@hapi/boom';
 import { Strategy } from 'passport-local';
 
-import * as UsuariosService from "@services/usuarios.service";
+import * as UsuariosService from "../../../services/usuarios.service";
 
 // const { Strategy } = passport;
 const service = UsuariosService;

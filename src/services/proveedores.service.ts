@@ -1,4 +1,3 @@
-import { Prisma } from "@prisma/client";
 import { db } from "../utils/db.config";
 import { ProveedorCreate,ProveedorUpdate } from "../models/proveedores.model";
 

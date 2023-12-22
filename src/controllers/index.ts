@@ -19,8 +19,8 @@ import MetodoPagoController from './metodo-pago.controller'
 import TipoUsuarioController from './tipo-usuarios.controller'
 import AuthController from './auth.controller'
 
-import * as DireccionesService from '@services/direcciones.service'
-import { checkAdminRol } from "@src/middlewares/auth.handler";
+import * as DireccionesService from '../services/direcciones.service'
+import { checkAdminRol } from "../middlewares/auth.handler";
 
 export default function routes(app: Application) {
     const router = Router()

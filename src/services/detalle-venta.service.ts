@@ -1,4 +1,3 @@
-import { Detalle_venta, Prisma } from "@prisma/client";
 import { db } from "../utils/db.config";
 import { DetalleVentaCreate,DetalleVentaUpdate } from "../models/detalle-venta.model";
 

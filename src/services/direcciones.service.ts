@@ -1,4 +1,3 @@
-import { Prisma } from "@prisma/client";
 import { db } from "../utils/db.config";
 import { DireccionCreate, DireccionUpdate, Direccion } from "../models/direcciones.model";
 

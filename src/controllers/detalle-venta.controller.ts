@@ -2,9 +2,7 @@ import express from "express"
 import type { Request,Response } from "express"
 import * as DetalleVentaServices from "../services/detalle-venta.service"
 import { Prisma } from "@prisma/client"
-import { DetalleCompraUpdate } from "../models/detalle-compra.model"
 import { DetalleVentaUpdate } from "../models/detalle-venta.model"
-import { request } from "http"
 
 const router = express.Router()
 

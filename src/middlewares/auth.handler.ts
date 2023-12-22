@@ -1,5 +1,5 @@
 import boom from '@hapi/boom';
-import { UsuarioRequest } from '@src/models/ususarios.model';
+import { UsuarioRequest } from '../models/ususarios.model';
 import { Request, Response, NextFunction } from 'express';
 
 interface CustomRequest<T> extends Request {

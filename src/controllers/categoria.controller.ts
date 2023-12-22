@@ -1,9 +1,8 @@
 import express from "express"
+import { Prisma } from "@prisma/client"
 import type { Request,Response } from "express" 
 import * as CategoriaServices from "../services/categoria.service"
-import { Prisma } from "@prisma/client"
 import { CategoriaUpdate } from "../models/categorias.model"
-import { request } from "http"
 
 const router = express.Router()
 
