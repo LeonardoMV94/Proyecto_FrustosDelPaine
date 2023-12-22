@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon src/index.ts",
     "build": "npx tsc",
-    "start": "cross-env TS_NODE_BASEURL=./dist node --require tsconfig-paths/register ./dist/src/index.js",
+    "start": "cross-env TS_NODE_BASEURL=./dist node -r ts-node/register -r tsconfig-paths/register ./dist/src/index.js",
     "prisma:pull": "npx prisma db pull",
     "prisma:generate": "npx prisma generate",
     "prisma:seed": "npx prisma db seed"
