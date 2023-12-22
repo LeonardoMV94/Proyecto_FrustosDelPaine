@@ -2181,16 +2181,65 @@ async function main() {
         data: {
             Tipos_Usuarios_id: 1,
             Colaboradores_id: 1,
-            pass_encrypt: "botitas"
+            pass_encrypt: "$2a$12$nI6Owi4LHNYDC3h/KY5JseVOkY4eZE/4Hqez0DFWhVFHkzRyy/UGq"
         }
 
     })
+
+    const categorias = await prisma.categorias.createMany({
+        data: [
+            { categoria: 'harina'},
+            { categoria: 'legumbres' },
+            { categoria: 'mermeladas' },
+            { categoria: 'manjares'},
+            { categoria: 'conservas'},
+            { categoria: 'frutos'},
+            { categoria: 'huevos'},
+        ]
+    })
+
+    const productos = await prisma.productos.createMany({
+        data: [
+            {
+                Categorias_id: 1,
+                descripcion: 'harina tostada',
+                peso_gramos: 500,
+                precio_neto: 1500,
+                stock: 10,                
+            },
+            {
+                Categorias_id: 1,
+                descripcion: 'harina tostada',
+                peso_gramos: 1000,
+                precio_neto: 2100,
+                stock: 7,                
+            },
+            {
+                Categorias_id: 1,
+                descripcion: 'harina garbanzo',
+                peso_gramos: 500,
+                precio_neto: 1500,
+                stock: 10, 
+            },
+            {
+                Categorias_id: 2,
+                descripcion: 'porotos burro',
+                peso_gramos: 1000,
+                precio_neto: 2900,
+                stock: 12
+            }
+        ]
+    })
+
+
     console.log("Insert Seed Prisma: ", { clienteConDireccion })
     console.log("Insert Seed Prisma: ", cliente)
     console.log("Insert Seed Prisma: ", metodosPago)
     console.log("Insert Seed Prisma: ", tipoUsuario)
     console.log("Insert Seed Prisma: ", colaboradores)
-    console.log("Insert Seed Prisma: ", usuario)
+    console.log("Insert Seed Prisma: usuario ", usuario)
+    console.log("Insert Seed Prisma: categorias ", categorias)
+    console.log("Insert Seed Prisma: productos ", productos)
     console.log("Insert regiones", regionesResult)
     console.log("Insert provincias", provinciasResult)
     console.log("Insert comunas", comunasResult)
