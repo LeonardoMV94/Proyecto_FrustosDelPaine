@@ -12,15 +12,12 @@ app.use(cors())
 app.use(express.json())
 app.use(express.static(path.join(__dirname, '../front/spa/')));
 
-const paaaa = path.join(__dirname, '../front/spa/')
-
-console.log( "ruta: ",__dirname + '../front/spa')
-console.log( "ruta2: ",paaaa)
+const paaaa = path.join(__dirname, '../front/pwa/')
 
 // auth strategies
 import './utils/auth/index'
 app.get('/', (req: Request, res: Response) => {
-    res.sendFile(path.join(__dirname, '../front/spa/index.html'))
+    res.sendFile(path.join(__dirname, '../front/pwa/index.html'))
 });
 controllers(app)
 
