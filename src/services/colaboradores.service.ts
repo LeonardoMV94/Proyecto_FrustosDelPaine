@@ -1,14 +1,14 @@
 import { db } from "../utils/db.config";
-import { ColaboradorCrate, ColaboradorUpdate } from "../models/colaboradores.model";
+import { Colaborador, ColaboradorCrate, ColaboradorUpdate } from "../models/colaboradores.model";
 
 
 export async function getAllColabradores() {
     try {
-        const colaborador = await db.colaboradores.findMany()
+        const colaborador : Colaborador[] = await db.colaboradores.findMany()
         return colaborador
     } catch (error) {
         console.log("Error de obtener colaboradores ", error)
-        return {}
+        return []
     }
 
 }

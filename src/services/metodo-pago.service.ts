@@ -4,12 +4,17 @@ import { MetodoPagoCreate , MetodoPagoUpdate} from '../models/metodo-pago.model'
 export async function getAllMetodoPago(){
 try {
     const metodosPagos = await db.metodo_Pago.findMany()
-    return metodosPagos
+    const selectMetodos = metodosPagos.map((com)=> ({'value':com.id,'label':com.metodo}))
+    return selectMetodos
 } catch (error) {
     console.log("error al obtener metodo de pago", error)
     return[]
 }
     
+}
+
+export async function getMetodosValueLabel(){
+
 }
 
 export async function getOneMetodoPagoById(id:number){

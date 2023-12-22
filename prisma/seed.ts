@@ -2079,170 +2079,181 @@ async function main() {
         }
     ]
 
-    const [regionesResult, provinciasResult, comunasResult] = await prisma.$transaction([
-        prisma.regiones.createMany({ data: regiones }),
-        prisma.provincias.createMany({ data: provincias }),
-        prisma.comunas.createMany({ data: comunas })
-    ])
+    // const [regionesResult, provinciasResult, comunasResult] = await prisma.$transaction([
+    //     prisma.regiones.createMany({ data: regiones }),
+    //     prisma.provincias.createMany({ data: provincias }),
+    //     prisma.comunas.createMany({ data: comunas })
+    // ])
 
-    const clienteConDireccion = await prisma.clientes.createMany({
+    // const clienteConDireccion = await prisma.clientes.createMany({
+    //     data: [
+    //         {
+    //             rut: "777777777",
+    //             nombre: "numerosiete",
+    //             apellido: "numerosiete",
+    //             correo: "numero@siete.co",
+    //             celular: "(+56) 9 77777777",
+    //             direccion_id: null
+    //         },
+    //         {
+    //             rut: "444444444",
+    //             nombre: "sebin",
+    //             apellido: "sebibi",
+    //             correo: "kajshjkas@djksd.cl",
+    //             celular: "(+56) 9 33344444",
+    //             direccion_id: null
+    //         }]
+    // });
+
+    // const cliente = await prisma.clientes.create({
+    //     data:
+    //     {
+    //         nombre: 'Sebastian',
+    //         apellido: 'Muñoz',
+    //         celular: '+56911223344',
+    //         rut: '11222333-1',
+    //         correo: 'admin@admin.cl',
+    //         Direcciones_de_Clientes: {
+    //             create: {
+    //                 Direcciones: {
+    //                     create: {
+    //                         calle: 'las araucarias',
+    //                         numero_calle: 2030,
+    //                         Comunas: {
+    //                             connect: { id_comuna: 1 }, // Conectar a una comuna existente por su ID
+    //                         },
+    //                     },
+    //                 },
+    //             },
+    //         },
+    //     }
+    // })
+
+    // const metodosPago = await prisma.metodo_Pago.createMany({
+    //     data: [
+    //         {
+    //             id: 1,
+    //             metodo: 'efectivo'
+    //         },
+    //         {
+    //             id: 2,
+    //             metodo: 'debito'
+    //         },
+    //         {
+    //             id: 3,
+    //             metodo: 'credito'
+    //         },
+    //     ]
+    // })
+
+    // const colaboradores = await prisma.colaboradores.createMany({
+    //     data: [
+    //         {
+    //             "id": 1,
+    //             "nombres": "seba",
+    //             "apellidos": "munoz",
+    //             "direccion_id": 1,
+    //             "correo": "seba@gmail.com",
+    //             "celular": "993493492"
+    //         },
+    //         {
+    //             "id": 2,
+    //             "nombres": "jereklein",
+    //             "apellidos": "Gomez",
+    //             "direccion_id": 1,
+    //             "correo": "jereklein@gmail.com",
+    //             "celular": "888773333"
+    //         }
+    //     ]
+    // })
+
+    // const tipoUsuario = await prisma.tipos_Usuarios.createMany({
+    //     data: [
+    //         {
+    //             tipo_usuario: 'admin'
+    //         },
+    //         {
+    //             tipo_usuario: 'colaborador'
+    //         }
+    //     ]
+    // })
+    // const usuario = await prisma.usuarios.create({
+    //     data: {
+    //         Tipos_Usuarios_id: 1,
+    //         Colaboradores_id: 1,
+    //         pass_encrypt: "$2a$12$nI6Owi4LHNYDC3h/KY5JseVOkY4eZE/4Hqez0DFWhVFHkzRyy/UGq"
+    //     }
+
+    // })
+
+    // const categorias = await prisma.categorias.createMany({
+    //     data: [
+    //         { categoria: 'harina'},
+    //         { categoria: 'legumbres' },
+    //         { categoria: 'mermeladas' },
+    //         { categoria: 'manjares'},
+    //         { categoria: 'conservas'},
+    //         { categoria: 'frutos'},
+    //         { categoria: 'huevos'},
+    //     ]
+    // })
+
+    // const productos = await prisma.productos.createMany({
+    //     data: [
+    //         {
+    //             Categorias_id: 1,
+    //             descripcion: 'harina tostada',
+    //             peso_gramos: 500,
+    //             precio_neto: 1500,
+    //             stock: 10,                
+    //         },
+    //         {
+    //             Categorias_id: 1,
+    //             descripcion: 'harina tostada',
+    //             peso_gramos: 1000,
+    //             precio_neto: 2100,
+    //             stock: 7,                
+    //         },
+    //         {
+    //             Categorias_id: 1,
+    //             descripcion: 'harina garbanzo',
+    //             peso_gramos: 500,
+    //             precio_neto: 1500,
+    //             stock: 10, 
+    //         },
+    //         {
+    //             Categorias_id: 2,
+    //             descripcion: 'porotos burro',
+    //             peso_gramos: 1000,
+    //             precio_neto: 2900,
+    //             stock: 12
+    //         }
+    //     ]
+    // })
+
+    const estadosPago = await  prisma.estado_Pago.createMany({
         data: [
             {
-                rut: "777777777",
-                nombre: "numerosiete",
-                apellido: "numerosiete",
-                correo: "numero@siete.co",
-                celular: "(+56) 9 77777777",
-                direccion_id: null
+                estado: 'pagado'
             },
             {
-                rut: "444444444",
-                nombre: "sebin",
-                apellido: "sebibi",
-                correo: "kajshjkas@djksd.cl",
-                celular: "(+56) 9 33344444",
-                direccion_id: null
-            }]
-    });
-
-    const cliente = await prisma.clientes.create({
-        data:
-        {
-            nombre: 'Sebastian',
-            apellido: 'Muñoz',
-            celular: '+56911223344',
-            rut: '11222333-1',
-            correo: 'admin@admin.cl',
-            Direcciones_de_Clientes: {
-                create: {
-                    Direcciones: {
-                        create: {
-                            calle: 'las araucarias',
-                            numero_calle: 2030,
-                            Comunas: {
-                                connect: { id_comuna: 1 }, // Conectar a una comuna existente por su ID
-                            },
-                        },
-                    },
-                },
-            },
-        }
-    })
-
-    const metodosPago = await prisma.metodo_Pago.createMany({
-        data: [
-            {
-                id: 1,
-                metodo: 'efectivo'
-            },
-            {
-                id: 2,
-                metodo: 'debito'
-            },
-            {
-                id: 3,
-                metodo: 'credito'
-            },
-        ]
-    })
-
-    const colaboradores = await prisma.colaboradores.createMany({
-        data: [
-            {
-                "id": 1,
-                "nombres": "seba",
-                "apellidos": "munoz",
-                "direccion_id": 1,
-                "correo": "seba@gmail.com",
-                "celular": "993493492"
-            },
-            {
-                "id": 2,
-                "nombres": "jereklein",
-                "apellidos": "Gomez",
-                "direccion_id": 1,
-                "correo": "jereklein@gmail.com",
-                "celular": "888773333"
+                estado: 'No pagado'
             }
         ]
     })
+    console.log(estadosPago)
 
-    const tipoUsuario = await prisma.tipos_Usuarios.createMany({
-        data: [
-            {
-                tipo_usuario: 'admin'
-            },
-            {
-                tipo_usuario: 'colaborador'
-            }
-        ]
-    })
-    const usuario = await prisma.usuarios.create({
-        data: {
-            Tipos_Usuarios_id: 1,
-            Colaboradores_id: 1,
-            pass_encrypt: "$2a$12$nI6Owi4LHNYDC3h/KY5JseVOkY4eZE/4Hqez0DFWhVFHkzRyy/UGq"
-        }
-
-    })
-
-    const categorias = await prisma.categorias.createMany({
-        data: [
-            { categoria: 'harina'},
-            { categoria: 'legumbres' },
-            { categoria: 'mermeladas' },
-            { categoria: 'manjares'},
-            { categoria: 'conservas'},
-            { categoria: 'frutos'},
-            { categoria: 'huevos'},
-        ]
-    })
-
-    const productos = await prisma.productos.createMany({
-        data: [
-            {
-                Categorias_id: 1,
-                descripcion: 'harina tostada',
-                peso_gramos: 500,
-                precio_neto: 1500,
-                stock: 10,                
-            },
-            {
-                Categorias_id: 1,
-                descripcion: 'harina tostada',
-                peso_gramos: 1000,
-                precio_neto: 2100,
-                stock: 7,                
-            },
-            {
-                Categorias_id: 1,
-                descripcion: 'harina garbanzo',
-                peso_gramos: 500,
-                precio_neto: 1500,
-                stock: 10, 
-            },
-            {
-                Categorias_id: 2,
-                descripcion: 'porotos burro',
-                peso_gramos: 1000,
-                precio_neto: 2900,
-                stock: 12
-            }
-        ]
-    })
-
-
-    console.log("Insert Seed Prisma: ", { clienteConDireccion })
-    console.log("Insert Seed Prisma: ", cliente)
-    console.log("Insert Seed Prisma: ", metodosPago)
-    console.log("Insert Seed Prisma: ", tipoUsuario)
-    console.log("Insert Seed Prisma: ", colaboradores)
-    console.log("Insert Seed Prisma: usuario ", usuario)
-    console.log("Insert Seed Prisma: categorias ", categorias)
-    console.log("Insert Seed Prisma: productos ", productos)
-    console.log("Insert regiones", regionesResult)
-    console.log("Insert provincias", provinciasResult)
-    console.log("Insert comunas", comunasResult)
+    // console.log("Insert Seed Prisma: ", { clienteConDireccion })
+    // console.log("Insert Seed Prisma: ", cliente)
+    // console.log("Insert Seed Prisma: ", metodosPago)
+    // console.log("Insert Seed Prisma: ", tipoUsuario)
+    // console.log("Insert Seed Prisma: ", colaboradores)
+    // console.log("Insert Seed Prisma: usuario ", usuario)
+    // console.log("Insert Seed Prisma: categorias ", categorias)
+    // console.log("Insert Seed Prisma: productos ", productos)
+    // console.log("Insert regiones", regionesResult)
+    // console.log("Insert provincias", provinciasResult)
+    // console.log("Insert comunas", comunasResult)
 }
 
 main()

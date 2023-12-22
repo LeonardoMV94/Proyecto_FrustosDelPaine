@@ -1,5 +1,6 @@
 import { db } from "../utils/db.config";
-import { VentaCreate, VentaUpdate } from "../models/ventas.model";
+import { VentaCreate, VentaUpdate, Venta, VentaCreateWIthDetalleProductos } from '../models/ventas.model';
+import { connect } from "http2";
 
 export async function getAllVentas() {
     try {
@@ -31,6 +32,9 @@ export async function getOneVentaById(id: number) {
         const result = await db.venta.findFirst({
             where: {
                 id: id
+            },
+            include: {
+                Detalle_venta: true
             }
         })
         return result
@@ -41,10 +45,40 @@ export async function getOneVentaById(id: number) {
 
 }
 
-export async function createVenta(venta: VentaCreate) {
+export async function createVenta(venta: VentaCreateWIthDetalleProductos) {
     try {
+
+    //     neto: number;
+    // iva: number;
+    // total: number;
+    // Clientes_id: number | undefined;
+    // Usuarios_id: number;
+    // Estadopago: number;
+    // Detalle_venta: {
+    //     Producto_id: number;
+    //     Cantidad: number;
+    //     precio_neto: number;
+    //     precio_total_neto: number;
+    // }[];
         return await db.venta.create({
-            data: venta
+            data: {
+                fecha: new Date(),
+                iva: venta.iva,
+                neto: venta.neto,
+                total: venta.total,
+                Clientes_id: venta.Clientes_id,
+                Estado_Pago_id: venta.Estado_Pago_id,
+                Usuarios_id: venta.Usuarios_id,
+                Detalle_venta: {
+                    createMany: {
+                        data: venta.Detalle_venta
+                    }
+                },
+
+            },
+            include: {
+                Detalle_venta: true
+            }
         })
     } catch (error) {
         console.log("Error de Prisma Create ", error)

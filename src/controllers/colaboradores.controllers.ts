@@ -34,7 +34,7 @@ router.get('/correo', body('correo').isString(), async (request: Request, respon
 })
 
 router.get("/:id", async (request: Request, response: Response) => {
-    const id: number = parseInt(request.params.id, 0)
+    const id: number = parseInt(request.params.id, 10)
     try {
         const colaboradores = await ColaboradoresServices.getOneColaboradorById(id)
         response.status(200).json(colaboradores)
@@ -47,9 +47,11 @@ router.get("/:id", async (request: Request, response: Response) => {
 
 
 router.put("/:id", async (request: Request, response: Response) => {
-    const id: number = parseInt(request.params.id, 0)
+    const id: number = parseInt(request.params.id, 10)
     const colaboradorBody: ColaboradorUpdate = request.body
     try {
+        console.log("post colaborador: ", id )
+        console.log("post colaborador: ", colaboradorBody )
         const result = await ColaboradoresServices.updateColaborador(id, colaboradorBody)
         response.status(200).json(result)
     } catch (error) {
