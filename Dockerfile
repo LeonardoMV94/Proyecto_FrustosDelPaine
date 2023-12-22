@@ -12,6 +12,7 @@ ENV DATABASE_URL=mysql://root:CaeFfC5GhfF3-da5Hg-55d-A5dea2hEf@monorail.proxy.rl
     NODE_ENV=production
 
 COPY --from=builder /home/app/package*.json ./
+COPY --from=builder /home/app/tsconfig.json ./
 COPY --from=builder /home/app/dist ./dist
 COPY --from=builder /home/app/prisma ./prisma
 RUN npm ci --only=production && npx prisma generate
