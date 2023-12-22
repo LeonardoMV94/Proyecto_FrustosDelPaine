@@ -126,6 +126,4 @@
       "tsconfig-paths/register"
     ]
   },
-  "exclude": [ "node_modules", "build" ],
-  "include": [ "src/**/*.ts" ],
 }
