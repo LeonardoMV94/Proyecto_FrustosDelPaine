@@ -28,22 +28,22 @@
     "baseUrl": ".", /* Specify the base directory to resolve non-relative module names. */
     "paths": {
       "@src/*": [
-        "src/*"
+        "./src/*"
       ],
       "@services/*": [
-        "src/services/*"
+        "./src/services/*"
       ],
       "@controllers/*": [
-        "src/controllers/*"
+        "./src/controllers/*"
       ],
       "@models/*": [
-        "src/models/*"
+        "./src/models/*"
       ],
       "@utils/*": [
-        "src/utils/*"
+        "./src/utils/*"
       ],
       "@config/*": [
-        "src/config/*"
+        "./src/config/*"
       ],
     }, /* Specify a set of entries that re-map imports to additional lookup locations. */
     "rootDirs": [
@@ -125,5 +125,7 @@
     "require": [
       "tsconfig-paths/register"
     ]
-  }
+  },
+  "exclude": [ "node_modules", "build" ],
+  "include": [ "src/**/*.ts" ],
 }

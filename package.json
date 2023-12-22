@@ -4,10 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/index.ts",
     "build": "npx tsc",
-    "start": "node dist/src/index.js",
+    "start": "cross-env TS_NODE_BASEURL=./dist node --require tsconfig-paths/register ./dist/src/index.js",
     "prisma:pull": "npx prisma db pull",
     "prisma:generate": "npx prisma generate",
     "prisma:seed": "npx prisma db seed"
@@ -27,7 +26,6 @@
     "@types/passport-local": "^1.0.38",
     "prisma": "^5.4.2",
     "ts-node": "^10.9.1",
-    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.2.2"
   },
   "dependencies": {
@@ -35,6 +33,7 @@
     "@prisma/client": "^5.4.2",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-validator": "^7.0.1",
@@ -42,7 +41,8 @@
     "nodemon": "^3.0.2",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "tsconfig-paths": "^4.2.0"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
