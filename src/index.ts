@@ -10,13 +10,15 @@ const port = config.port
 
 app.use(cors())
 app.use(express.json())
-app.use(express.static(__dirname + '../front/spa/'));
+app.use(express.static(path.join(__dirname, '../front/spa/')));
+
+const paaaa = path.join(__dirname, '../front/spa/')
+
+console.log( "ruta: ",__dirname + '../front/spa')
+console.log( "ruta2: ",paaaa)
 
 // auth strategies
 import './utils/auth/index'
-
-
-
 app.get('/', (req: Request, res: Response) => {
     res.sendFile(path.join(__dirname, '../front/spa/index.html'))
 });
@@ -26,6 +28,6 @@ controllers(app)
 
 
 app.listen(port, () => {
-    console.clear()
+    // console.clear()
     console.log(`[Server]: Listen in http://localhost:${port}/api/v1/test`)
 })
